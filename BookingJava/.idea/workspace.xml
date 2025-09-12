@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="init">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/log4j2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/log4j2.xml" afterDir="false" />
-    </list>
+    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="init2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -358,14 +353,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732282684181</updated>
-    </task>
-    <task id="LOCAL-00020" summary="Add cardinality validation">
-      <option name="closed" value="true" />
-      <created>1742942040797</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1742942040797</updated>
     </task>
     <task id="LOCAL-00021" summary="Add conditional formatting writting">
       <option name="closed" value="true" />
@@ -751,7 +738,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757666544761</updated>
     </task>
-    <option name="localTasksCounter" value="69" />
+    <task id="LOCAL-00069" summary="init2">
+      <option name="closed" value="true" />
+      <created>1757670605033</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1757670605033</updated>
+    </task>
+    <option name="localTasksCounter" value="70" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -766,7 +761,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add excel assertion: multiple" />
     <MESSAGE value="add excel assertion: text assert" />
     <MESSAGE value="add excel assertion: text assert serializer" />
     <MESSAGE value="add excel assertion: text assert serializer in" />
@@ -791,7 +785,8 @@
     <MESSAGE value="modularize pipeliner demo" />
     <MESSAGE value="add booking demo in .NET" />
     <MESSAGE value="java booking demo refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="java booking demo refactor" />
+    <MESSAGE value="init2" />
+    <option name="LAST_COMMIT_MESSAGE" value="init2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
