@@ -1,0 +1,862 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="init" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ChangesViewManager">
+    <option name="groupingKeys">
+      <option value="directory" />
+    </option>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Interface" />
+        <option value="JUnit5 Test Class" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="cf2c227f07a0a5b3862295a1bdd48a61f94d30a3" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;MichalBrylka&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/MichalBrylka/BookingIocDemo.git&quot;,
+    &quot;accountId&quot;: &quot;84ac2d0a-abbd-4a14-80f3-e38ba9fd0e58&quot;
+  }
+}</component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$USER_HOME$/.jdks/corretto-21.0.5/lib/src.zip!/java.base/java/io/InputStream.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.18.1/jackson-databind-2.18.1.jar!/com/fasterxml/jackson/databind/JsonNode.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.18.1/jackson-databind-2.18.1.jar!/com/fasterxml/jackson/databind/ObjectMapper.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/com/fasterxml/jackson/core/jackson-databind/2.18.1/jackson-databind-2.18.1.jar!/com/fasterxml/jackson/databind/deser/DefaultDeserializationContext.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi/5.4.0/poi-5.4.0.jar!/org/apache/poi/ss/usermodel/Cell.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/org/apache/poi/poi/5.4.0/poi-5.4.0.jar!/org/apache/poi/ss/usermodel/WorkbookFactory.class" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/src/main/java/valueSerialization/Values.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectCodeStyleSettingsMigration">
+    <option name="version" value="2" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2pCv4paLutSfnMvnd3MK7wiHdzR" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Csv.executor": "Run",
+    "Application.Enum parser.executor": "Run",
+    "Application.Eval.executor": "Debug",
+    "Application.Json replacement.executor": "Run",
+    "Application.Main.executor": "Debug",
+    "Application.ObjEnrich.executor": "Debug",
+    "Application.Pipelines.executor": "Run",
+    "Application.Unnamed.executor": "Debug",
+    "Application.conditionalFormattingExcel.executor": "Debug",
+    "JUnit.All in JavaExample.executor": "Debug",
+    "JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel.executor": "Run",
+    "JUnit.ColumnDefinitionTest.executor": "Run",
+    "JUnit.ColumnDefinitionTest.testDeserialization_CompactData.executor": "Run",
+    "JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
+    "JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.EncodedObjectTest.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldDeserializeEncodedObject.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldDeserializeNestedStructure.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldExposeCorrectValueType.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldSerializeEncodedObject.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldSerializeNestedStructure.executor": "Run",
+    "JUnit.EncodedStringTest.executor": "Run",
+    "JUnit.EncodedStringTest.shouldSerializeInnerCorrectly.executor": "Run",
+    "JUnit.EncodedStringTest.testNull.executor": "Run",
+    "JUnit.EncodedStringTest.testSerialization.executor": "Run",
+    "JUnit.EncodedStringTest.testSerialization.✅ NULL.executor": "Debug",
+    "JUnit.EncodedStringTest.testSerialization.✅ With emoji.executor": "Debug",
+    "JUnit.EncodingParserTest.executor": "Run",
+    "JUnit.EncodingParserTest.testDecoding.✅ Valid BASE64.executor": "Debug",
+    "JUnit.ExcelAssertTest.testExcelAssertions.executor": "Debug",
+    "JUnit.ExcelAssertTests.executor": "Run",
+    "JUnit.ExcelAssertTests.testExcelAssertions.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.fff.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.testAllAssertionsPass.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.testMultipleExcelCellFailures.executor": "Run",
+    "JUnit.FieldTranslationTest.executor": "Run",
+    "JUnit.FieldTranslationTest.testDeserialize_invalidInput.executor": "Run",
+    "JUnit.FieldTranslationTest.testSerializationAndDeserialization_UsingProvideData.[7] FieldTranslation[from=from1, to=to1, columnDefinition=MyDateColumnDefinition[format=date format]], .executor": "Debug",
+    "JUnit.FieldTranslationTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.FieldTranslationTest.write.executor": "Debug",
+    "JUnit.FormatTest.executor": "Run",
+    "JUnit.FormatTest.shouldDeserializeEmptyObjectToDefaultFixedFormat.executor": "Run",
+    "JUnit.FormatTest.shouldSerializeAndDeserializeFormat.executor": "Run",
+    "JUnit.FormatTest.shouldThrowJsonMappingExceptionForInvalidInputs.executor": "Run",
+    "JUnit.IndexSourceTest.compactingCases.executor": "Run",
+    "JUnit.IndexSourceTest.compactingCases.✅ Compacting: null.executor": "Debug",
+    "JUnit.IndexSourceTest.executor": "Run",
+    "JUnit.NumberAssertionTest.deserialization_Negative (1).executor": "Run",
+    "JUnit.NumberAssertionTest.deserialization_Negative.executor": "Run",
+    "JUnit.NumberAssertionTest.executor": "Run",
+    "JUnit.NumberAssertionTest.shouldFailAssertion.executor": "Run",
+    "JUnit.NumberAssertionTest.shouldPassAssertion.executor": "Run",
+    "JUnit.NumberAssertionTest.tt.executor": "Run",
+    "JUnit.NumberFormatTest.executor": "Debug",
+    "JUnit.NumberFormatTest.shouldDeserialize.✅ should deserialize to NumberFormat[fixedDecimalPlaces=2, percentDecimalPlaces=0, currencyDecimalPlaces=2].executor": "Debug",
+    "JUnit.NumberFormatTest.shouldDeserialize.✅ should deserialize to NumberFormat[fixedDecimalPlaces=44, percentDecimalPlaces=0, currencyDecimalPlaces=2].executor": "Debug",
+    "JUnit.NumberFormatTest.shouldFailDeserialization.executor": "Run",
+    "JUnit.RuleSerializationTest.executor": "Run",
+    "JUnit.RuleSerializationTest.serdes_UsingProvideData.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization (1).executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization.[17] FieldRule(inputs=[], outputs=[output1], mainRule=Rule7[message=info message, isError=false]), {\n  \"inputs\" : [ \"input1\", \"input2\" ],\n  \"outputs\" : [ ],\n  \"rule7\" : {\n    \"message\" : \"error message\",\n    \"isError\" : true\n  }\n}.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[14] FieldRule(inputs=[input1, input2], outputs=[], mainRule=Rule7[message=error message, isError=true, append=false, prepend=true]), {\n  \"inputs\" : [ \"input1\", \"input2\" ],\n  \"outputs\" : [ ],\n  \"rule7\" : {\n    \"message\" : \"error message\",\n    \"isError\" : true\n  }\n}.executor": "Debug",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[1] FieldRule(inputs=[input1, input2], outputs=[output1], mainRule=Rule1[expression=expression1]), {\n  \"inputs\" : [ \"input1\", \"input2\" ],\n  \"outputs\" : [ \"output1\" ],\n  \"rule1\" : {\n    \"expression\" : \"expression1\"\n  }\n}.executor": "Debug",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[21] FieldRule(inputs=[], outputs=[], mainRule=Rule9[key=key2, value=]), {\n  \"inputs\" : [ ],\n  \"outputs\" : [ ],\n  \"rule9\" : {\n    \"key\" : \"key2\",\n    \"value\" : \"\"\n  }\n}.executor": "Debug",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.SpecialObjectMapTest.executor": "Run",
+    "JUnit.SpecialObjectTest.executor": "Run",
+    "JUnit.TextAssertionTest.executor": "Run",
+    "JUnit.TextAssertionTest.shouldDeserializeTextAssertions.executor": "Run",
+    "JUnit.TextAssertionTest.shouldRejectInvalidJson.executor": "Run",
+    "JUnit.TextAssertionTest.shouldSerializeTextAssertions.executor": "Run",
+    "JUnit.TextAssertionTest.testContainsTextAssertion.executor": "Run",
+    "JUnit.TextAssertionTest.testEqualsTextAssertion.executor": "Run",
+    "JUnit.TextAssertionTest.testPatternTextAssertion.executor": "Run",
+    "JUnit.TypeMetaConformityTests.executor": "Run",
+    "JUnit.TypeMetaConformityTests.scanAllEnumsAndCustomClasses.executor": "Debug",
+    "JUnit.TypeMetaConformityTests.testActualDomainClasses.executor": "Run",
+    "JUnit.TypeMetaConformityTests.testClassMethods.4 => class=InheritedToStringClass, expectedFromMethod=true, expectedToString=false.executor": "Debug",
+    "JUnit.TypeMetaConformityTests.testClassMethods.executor": "Run",
+    "JUnit.UlpAssertionsTest.executor": "Run",
+    "JUnit.UlpAssertionsTest.maxValueAndNextAfterTowardInfinityExceedsUlps.executor": "Run",
+    "JUnit.UlpAssertionsTest.minValueAndZeroAreOneUlpApart.executor": "Run",
+    "JUnit.UlpAssertionsTest.nanComparisonFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.negativeInfinityAndFiniteValueFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.nextAfterIsOneUlpAway.executor": "Run",
+    "JUnit.UlpAssertionsTest.positiveAndNegativeInfinityAreNotClose.executor": "Run",
+    "JUnit.UlpAssertionsTest.positiveInfinityAndFiniteValueFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.valueExceedingMaxUlpsFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.valueWithinFiveUlpsSucceeds.executor": "Run",
+    "JUnit.UlpAssertionsTest.valuesCloseToMaxValueWithinUlps.executor": "Run",
+    "JUnit.UtilsTest.executor": "Run",
+    "JUnit.UtilsTest.testFoldRightConcatenate.executor": "Run",
+    "JUnit.ValueTest.executor": "Run",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[10] 3.141592653589793E15, {\"double\":3141592653589793}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[11] NaN, {\"double\":\"NaN\"}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[5] 1234567890.1234567, {\"currency\":1234567890.1234567}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[5] 123456789012345678901234567890.1234567890123456789, {\"currency\":123456789012345678901234567890.1234567890123456789}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[6] 123456789012345678901234567890.1234567890123456789, {\"currency\":123456789012345678901234567890.1234567890123456789}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.base64Enc in JavaExample.executor": "Run",
+    "JUnit.excelAssertions in JavaExample (1).executor": "Run",
+    "JUnit.excelAssertions in JavaExample.executor": "Run",
+    "JavaClassFindUsagesOptions.isDerivedClasses": "true",
+    "JavaClassFindUsagesOptions.isSearchForTextOccurrences": "false",
+    "Maven.JavaExample [clean,install].executor": "Run",
+    "Maven.JavaExample [clean].executor": "Run",
+    "Maven.JavaExample [compile].executor": "Run",
+    "Maven.JavaExample [dependency:resolve].executor": "Run",
+    "Maven.JavaExample [install].executor": "Run",
+    "Maven.JavaExample [test].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last.edited.regexp": "(1..6)    ",
+    "last_opened_file_path": "D:/Programming/Github/_Small/BookingIocDemo/BookingJava",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.sourceCode.JAVA"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.example2" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Programming\Github\_Small\JavaExcelParser\src\main\java\pipelines" />
+      <recent name="D:\Programming\Github\_Small\JavaExcelParser\src\main\java\csvParsing" />
+      <recent name="C:\Users\micha\IdeaProjects\JavaExample\src\main\java\org\example" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="excelAssertions" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="excelAssertions" />
+      <recent name="conditionalFormattingExcel" />
+      <recent name="rangeCust" />
+      <recent name="base64Enc" />
+      <recent name="valueSerialization" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="excelAssertions" />
+      <recent name="rangeCust" />
+      <recent name="" />
+      <recent name="base64Enc" />
+      <recent name="jsonReplacement" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="mvn dependency:resolve" />
+      <command value="mvn clean install" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.Pipelines">
+    <configuration name="Pipelines" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="pipelines.Main" />
+      <module name="JavaExample" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="excelAssertions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="excelAssertions" />
+      <option name="MAIN_CLASS_NAME" value="excelAssertions.AssertionReaderTest" />
+      <option name="METHOD_NAME" value="readFrom_ShouldReadAssertionsFromExcel" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExcelSoftAssertionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="excelAssertions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="excelAssertions" />
+      <option name="MAIN_CLASS_NAME" value="excelAssertions.ExcelSoftAssertionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ExcelSoftAssertionTest.testAllAssertionsPass" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="excelAssertions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="excelAssertions" />
+      <option name="MAIN_CLASS_NAME" value="excelAssertions.ExcelSoftAssertionTest" />
+      <option name="METHOD_NAME" value="testAllAssertionsPass" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NumberAssertionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="excelAssertions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="excelAssertions" />
+      <option name="MAIN_CLASS_NAME" value="excelAssertions.NumberAssertionTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="excelAssertions in JavaExample" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="excelAssertions.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="excelAssertions" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Pipelines" />
+      <item itemvalue="JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel" />
+      <item itemvalue="JUnit.ExcelSoftAssertionTest" />
+      <item itemvalue="JUnit.ExcelSoftAssertionTest.testAllAssertionsPass" />
+      <item itemvalue="JUnit.NumberAssertionTest" />
+      <item itemvalue="JUnit.excelAssertions in JavaExample" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.excelAssertions in JavaExample" />
+        <item itemvalue="JUnit.NumberAssertionTest" />
+        <item itemvalue="JUnit.ExcelSoftAssertionTest.testAllAssertionsPass" />
+        <item itemvalue="JUnit.ExcelSoftAssertionTest" />
+        <item itemvalue="JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="" />
+      <created>1732282684181</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1732282684181</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Add cardinality validation">
+      <option name="closed" value="true" />
+      <created>1742942040797</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1742942040797</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Add conditional formatting writting">
+      <option name="closed" value="true" />
+      <created>1743001771639</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1743001771639</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Add JSON replacement">
+      <option name="closed" value="true" />
+      <created>1743538122895</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1743538122895</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Add JSON encoded object/string">
+      <option name="closed" value="true" />
+      <created>1743772903001</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1743772903001</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Index source">
+      <option name="closed" value="true" />
+      <created>1747737709526</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1747737709526</updated>
+    </task>
+    <task id="LOCAL-00025" summary="conditional formatting init">
+      <option name="closed" value="true" />
+      <created>1748959288378</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1748959288378</updated>
+    </task>
+    <task id="LOCAL-00026" summary="number format in compact form">
+      <option name="closed" value="true" />
+      <created>1748961957011</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1748961957012</updated>
+    </task>
+    <task id="LOCAL-00027" summary="formated number">
+      <option name="closed" value="true" />
+      <created>1748965024114</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1748965024114</updated>
+    </task>
+    <task id="LOCAL-00028" summary="formated number">
+      <option name="closed" value="true" />
+      <created>1748965721389</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1748965721389</updated>
+    </task>
+    <task id="LOCAL-00029" summary="add excel assertion: number and text">
+      <option name="closed" value="true" />
+      <created>1749550352979</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1749550352979</updated>
+    </task>
+    <task id="LOCAL-00030" summary="add excel assertion: formula">
+      <option name="closed" value="true" />
+      <created>1749552749177</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1749552749177</updated>
+    </task>
+    <task id="LOCAL-00031" summary="add excel assertion: number">
+      <option name="closed" value="true" />
+      <created>1750113091887</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1750113091887</updated>
+    </task>
+    <task id="LOCAL-00032" summary="add excel assertion: empty">
+      <option name="closed" value="true" />
+      <created>1750114955018</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1750114955018</updated>
+    </task>
+    <task id="LOCAL-00033" summary="add excel assertion: bool">
+      <option name="closed" value="true" />
+      <created>1750115717751</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1750115717751</updated>
+    </task>
+    <task id="LOCAL-00034" summary="add excel assertion: error">
+      <option name="closed" value="true" />
+      <created>1750117660068</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1750117660068</updated>
+    </task>
+    <task id="LOCAL-00035" summary="add excel assertion: lombok">
+      <option name="closed" value="true" />
+      <created>1750276674074</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1750276674074</updated>
+    </task>
+    <task id="LOCAL-00036" summary="add excel assertion: lombok">
+      <option name="closed" value="true" />
+      <created>1750276788422</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1750276788422</updated>
+    </task>
+    <task id="LOCAL-00037" summary="add excel assertion: format category">
+      <option name="closed" value="true" />
+      <created>1750277611822</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1750277611822</updated>
+    </task>
+    <task id="LOCAL-00038" summary="add excel assertion: multiple">
+      <option name="closed" value="true" />
+      <created>1750278187371</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1750278187371</updated>
+    </task>
+    <task id="LOCAL-00039" summary="add excel assertion: multiple">
+      <option name="closed" value="true" />
+      <created>1750285838525</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1750285838525</updated>
+    </task>
+    <task id="LOCAL-00040" summary="add excel assertion: text assert">
+      <option name="closed" value="true" />
+      <created>1750329567451</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1750329567451</updated>
+    </task>
+    <task id="LOCAL-00041" summary="add excel assertion: text assert">
+      <option name="closed" value="true" />
+      <created>1750363414942</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1750363414942</updated>
+    </task>
+    <task id="LOCAL-00042" summary="add excel assertion: text assert serializer">
+      <option name="closed" value="true" />
+      <created>1750366443973</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1750366443973</updated>
+    </task>
+    <task id="LOCAL-00043" summary="add excel assertion: text assert serializer in">
+      <option name="closed" value="true" />
+      <created>1750441665038</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1750441665038</updated>
+    </task>
+    <task id="LOCAL-00044" summary="add excel assertion: error text assert">
+      <option name="closed" value="true" />
+      <created>1750444323342</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1750444323342</updated>
+    </task>
+    <task id="LOCAL-00045" summary="add excel assertion:  text assert">
+      <option name="closed" value="true" />
+      <created>1750447997708</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1750447997708</updated>
+    </task>
+    <task id="LOCAL-00046" summary="add excel assertion: format assert">
+      <option name="closed" value="true" />
+      <created>1750455813774</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1750455813774</updated>
+    </task>
+    <task id="LOCAL-00047" summary="add excel assertion: add sheet name to assertion">
+      <option name="closed" value="true" />
+      <created>1750537294143</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1750537294143</updated>
+    </task>
+    <task id="LOCAL-00048" summary="add excel assertion: add sheet name to assertion">
+      <option name="closed" value="true" />
+      <created>1750537695470</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1750537695470</updated>
+    </task>
+    <task id="LOCAL-00049" summary="add excel assertion: add simple assertion without value check">
+      <option name="closed" value="true" />
+      <created>1750539764645</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1750539764645</updated>
+    </task>
+    <task id="LOCAL-00050" summary="add excel assertion: number assertions init">
+      <option name="closed" value="true" />
+      <created>1750781510668</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1750781510669</updated>
+    </task>
+    <task id="LOCAL-00051" summary="add excel assertion: number assertions classes">
+      <option name="closed" value="true" />
+      <created>1750782478823</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1750782478823</updated>
+    </task>
+    <task id="LOCAL-00052" summary="add excel assertion: number assertions classes">
+      <option name="closed" value="true" />
+      <created>1750784713658</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1750784713658</updated>
+    </task>
+    <task id="LOCAL-00053" summary="add excel assertion: number assertions serialization">
+      <option name="closed" value="true" />
+      <created>1750786731981</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1750786731981</updated>
+    </task>
+    <task id="LOCAL-00054" summary="add excel assertion: number assertions serialization">
+      <option name="closed" value="true" />
+      <created>1750799229236</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1750799229236</updated>
+    </task>
+    <task id="LOCAL-00055" summary="add excel assertion: number assertions serialization">
+      <option name="closed" value="true" />
+      <created>1750799543903</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1750799543903</updated>
+    </task>
+    <task id="LOCAL-00056" summary="add excel assertion: number assertions and tests">
+      <option name="closed" value="true" />
+      <created>1750802304263</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1750802304264</updated>
+    </task>
+    <task id="LOCAL-00057" summary="add excel assertion: bool assertions and tests">
+      <option name="closed" value="true" />
+      <created>1750803711759</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1750803711760</updated>
+    </task>
+    <task id="LOCAL-00058" summary="add excel assertion: rows and columns reference">
+      <option name="closed" value="true" />
+      <created>1750835343370</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1750835343370</updated>
+    </task>
+    <task id="LOCAL-00059" summary="add excel assertion: excel ops for reading and writing">
+      <option name="closed" value="true" />
+      <created>1750849010604</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1750849010605</updated>
+    </task>
+    <task id="LOCAL-00060" summary="add excel assertion: assertion for cell comment">
+      <option name="closed" value="true" />
+      <created>1750850155437</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1750850155437</updated>
+    </task>
+    <task id="LOCAL-00061" summary="add excel assertion: assert reader from Excel">
+      <option name="closed" value="true" />
+      <created>1750863663270</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1750863663270</updated>
+    </task>
+    <task id="LOCAL-00062" summary="add excel assertion: assert reader from Excel">
+      <option name="closed" value="true" />
+      <created>1750881545669</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1750881545669</updated>
+    </task>
+    <task id="LOCAL-00063" summary="Move excel assert tot nemesis">
+      <option name="closed" value="true" />
+      <created>1750883773633</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1750883773633</updated>
+    </task>
+    <task id="LOCAL-00064" summary="Support CSV reading">
+      <option name="closed" value="true" />
+      <created>1756368717180</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1756368717180</updated>
+    </task>
+    <task id="LOCAL-00065" summary="add PipelinR demo">
+      <option name="closed" value="true" />
+      <created>1757602620518</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1757602620518</updated>
+    </task>
+    <task id="LOCAL-00066" summary="modularize pipeliner demo">
+      <option name="closed" value="true" />
+      <created>1757665641617</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1757665641617</updated>
+    </task>
+    <task id="LOCAL-00067" summary="add booking demo in .NET">
+      <option name="closed" value="true" />
+      <created>1757665829780</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1757665829780</updated>
+    </task>
+    <task id="LOCAL-00068" summary="java booking demo refactor">
+      <option name="closed" value="true" />
+      <created>1757666544761</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1757666544761</updated>
+    </task>
+    <option name="localTasksCounter" value="69" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add excel assertion: multiple" />
+    <MESSAGE value="add excel assertion: text assert" />
+    <MESSAGE value="add excel assertion: text assert serializer" />
+    <MESSAGE value="add excel assertion: text assert serializer in" />
+    <MESSAGE value="add excel assertion: error text assert" />
+    <MESSAGE value="add excel assertion:  text assert" />
+    <MESSAGE value="add excel assertion: formula text assert" />
+    <MESSAGE value="add excel assertion: format assert" />
+    <MESSAGE value="add excel assertion: add sheet name to assertion" />
+    <MESSAGE value="add excel assertion: add simple assertion without value check" />
+    <MESSAGE value="add excel assertion: number assertions init" />
+    <MESSAGE value="add excel assertion: number assertions classes" />
+    <MESSAGE value="add excel assertion: number assertions serialization" />
+    <MESSAGE value="add excel assertion: number assertions and tests" />
+    <MESSAGE value="add excel assertion: bool assertions and tests" />
+    <MESSAGE value="add excel assertion: rows and columns reference" />
+    <MESSAGE value="add excel assertion: excel ops for reading and writing" />
+    <MESSAGE value="add excel assertion: assertion for cell comment" />
+    <MESSAGE value="add excel assertion: assert reader from Excel" />
+    <MESSAGE value="Move excel assert tot nemesis" />
+    <MESSAGE value="Support CSV reading" />
+    <MESSAGE value="add PipelinR demo" />
+    <MESSAGE value="modularize pipeliner demo" />
+    <MESSAGE value="add booking demo in .NET" />
+    <MESSAGE value="java booking demo refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="java booking demo refactor" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <line>38</line>
+          <option name="timeStamp" value="29" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/org/example/FieldTranslationTest.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="30" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="31" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/valueSerialization/TypeMetaConformityTests.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <line>63</line>
+          <option name="timeStamp" value="35" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+          <line>12</line>
+          <option name="timeStamp" value="36" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/valueSerialization/ValueSerdes.java</url>
+          <line>183</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/valueSerialization/ValueTest.java</url>
+          <line>39</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/evaluation/Main.java</url>
+          <line>17</line>
+          <option name="timeStamp" value="45" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/objectEnricher/Main.java</url>
+          <line>30</line>
+          <option name="timeStamp" value="46" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/objectEnricher/Main.java</url>
+          <line>14</line>
+          <option name="timeStamp" value="47" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/rangeCust/IndexSourceTest.java</url>
+          <line>152</line>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/conditionalFormattingExcel/Main.java</url>
+          <line>42</line>
+          <option name="timeStamp" value="58" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
