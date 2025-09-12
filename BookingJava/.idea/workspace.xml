@@ -7,10 +7,10 @@
     <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="add spring as DI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Controller.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/IoC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/IoC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,138 +82,141 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Csv.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Enum parser.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Eval.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.Json replacement.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.ObjEnrich.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.Pipelines.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Unnamed.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.conditionalFormattingExcel.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.All in JavaExample.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ColumnDefinitionTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ColumnDefinitionTest.testDeserialization_CompactData.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingFaker.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingProvideData.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedObjectTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedObjectTest.shouldDeserializeEncodedObject.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedObjectTest.shouldDeserializeNestedStructure.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedObjectTest.shouldExposeCorrectValueType.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedObjectTest.shouldSerializeEncodedObject.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedObjectTest.shouldSerializeNestedStructure.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedStringTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedStringTest.shouldSerializeInnerCorrectly.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedStringTest.testNull.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedStringTest.testSerialization.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodedStringTest.testSerialization.✅ NULL.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.EncodedStringTest.testSerialization.✅ With emoji.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.EncodingParserTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.EncodingParserTest.testDecoding.✅ Valid BASE64.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ExcelAssertTest.testExcelAssertions.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ExcelAssertTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ExcelAssertTests.testExcelAssertions.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ExcelSoftAssertionTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ExcelSoftAssertionTest.fff.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ExcelSoftAssertionTest.testAllAssertionsPass.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ExcelSoftAssertionTest.testMultipleExcelCellFailures.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FieldTranslationTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FieldTranslationTest.testDeserialize_invalidInput.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FieldTranslationTest.testSerializationAndDeserialization_UsingProvideData.[7] FieldTranslation[from=from1, to=to1, columnDefinition=MyDateColumnDefinition[format=date format]], .executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.FieldTranslationTest.testSerializationAndDeserialization_UsingProvideData.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FieldTranslationTest.write.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.FormatTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FormatTest.shouldDeserializeEmptyObjectToDefaultFixedFormat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FormatTest.shouldSerializeAndDeserializeFormat.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.FormatTest.shouldThrowJsonMappingExceptionForInvalidInputs.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.IndexSourceTest.compactingCases.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.IndexSourceTest.compactingCases.✅ Compacting: null.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.IndexSourceTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.NumberAssertionTest.deserialization_Negative (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.NumberAssertionTest.deserialization_Negative.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.NumberAssertionTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.NumberAssertionTest.shouldFailAssertion.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.NumberAssertionTest.shouldPassAssertion.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.NumberAssertionTest.tt.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.NumberFormatTest.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.NumberFormatTest.shouldDeserialize.✅ should deserialize to NumberFormat[fixedDecimalPlaces=2, percentDecimalPlaces=0, currencyDecimalPlaces=2].executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.NumberFormatTest.shouldDeserialize.✅ should deserialize to NumberFormat[fixedDecimalPlaces=44, percentDecimalPlaces=0, currencyDecimalPlaces=2].executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.NumberFormatTest.shouldFailDeserialization.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RuleSerializationTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RuleSerializationTest.serdes_UsingProvideData.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization.[17] FieldRule(inputs=[], outputs=[output1], mainRule=Rule7[message=info message, isError=false]), {\n  \&quot;inputs\&quot; : [ \&quot;input1\&quot;, \&quot;input2\&quot; ],\n  \&quot;outputs\&quot; : [ ],\n  \&quot;rule7\&quot; : {\n    \&quot;message\&quot; : \&quot;error message\&quot;,\n    \&quot;isError\&quot; : true\n  }\n}.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingFaker.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[14] FieldRule(inputs=[input1, input2], outputs=[], mainRule=Rule7[message=error message, isError=true, append=false, prepend=true]), {\n  \&quot;inputs\&quot; : [ \&quot;input1\&quot;, \&quot;input2\&quot; ],\n  \&quot;outputs\&quot; : [ ],\n  \&quot;rule7\&quot; : {\n    \&quot;message\&quot; : \&quot;error message\&quot;,\n    \&quot;isError\&quot; : true\n  }\n}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[1] FieldRule(inputs=[input1, input2], outputs=[output1], mainRule=Rule1[expression=expression1]), {\n  \&quot;inputs\&quot; : [ \&quot;input1\&quot;, \&quot;input2\&quot; ],\n  \&quot;outputs\&quot; : [ \&quot;output1\&quot; ],\n  \&quot;rule1\&quot; : {\n    \&quot;expression\&quot; : \&quot;expression1\&quot;\n  }\n}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[21] FieldRule(inputs=[], outputs=[], mainRule=Rule9[key=key2, value=]), {\n  \&quot;inputs\&quot; : [ ],\n  \&quot;outputs\&quot; : [ ],\n  \&quot;rule9\&quot; : {\n    \&quot;key\&quot; : \&quot;key2\&quot;,\n    \&quot;value\&quot; : \&quot;\&quot;\n  }\n}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.SpecialObjectMapTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.SpecialObjectTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TextAssertionTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TextAssertionTest.shouldDeserializeTextAssertions.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TextAssertionTest.shouldRejectInvalidJson.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TextAssertionTest.shouldSerializeTextAssertions.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TextAssertionTest.testContainsTextAssertion.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TextAssertionTest.testEqualsTextAssertion.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TextAssertionTest.testPatternTextAssertion.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TypeMetaConformityTests.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TypeMetaConformityTests.scanAllEnumsAndCustomClasses.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TypeMetaConformityTests.testActualDomainClasses.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.TypeMetaConformityTests.testClassMethods.4 =&gt; class=InheritedToStringClass, expectedFromMethod=true, expectedToString=false.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.TypeMetaConformityTests.testClassMethods.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.maxValueAndNextAfterTowardInfinityExceedsUlps.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.minValueAndZeroAreOneUlpApart.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.nanComparisonFails.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.negativeInfinityAndFiniteValueFails.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.nextAfterIsOneUlpAway.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.positiveAndNegativeInfinityAreNotClose.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.positiveInfinityAndFiniteValueFails.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.valueExceedingMaxUlpsFails.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.valueWithinFiveUlpsSucceeds.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UlpAssertionsTest.valuesCloseToMaxValueWithinUlps.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UtilsTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.UtilsTest.testFoldRightConcatenate.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ValueTest.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ValueTest.testSerializationAndDeserialization_UsingFaker.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[10] 3.141592653589793E15, {\&quot;double\&quot;:3141592653589793}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[11] NaN, {\&quot;double\&quot;:\&quot;NaN\&quot;}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[5] 1234567890.1234567, {\&quot;currency\&quot;:1234567890.1234567}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[5] 123456789012345678901234567890.1234567890123456789, {\&quot;currency\&quot;:123456789012345678901234567890.1234567890123456789}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[6] 123456789012345678901234567890.1234567890123456789, {\&quot;currency\&quot;:123456789012345678901234567890.1234567890123456789}.executor&quot;: &quot;Debug&quot;,
-    &quot;JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.base64Enc in JavaExample.executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.excelAssertions in JavaExample (1).executor&quot;: &quot;Run&quot;,
-    &quot;JUnit.excelAssertions in JavaExample.executor&quot;: &quot;Run&quot;,
-    &quot;JavaClassFindUsagesOptions.isDerivedClasses&quot;: &quot;true&quot;,
-    &quot;JavaClassFindUsagesOptions.isSearchForTextOccurrences&quot;: &quot;false&quot;,
-    &quot;Maven.JavaExample [clean,install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.JavaExample [clean].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.JavaExample [compile].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.JavaExample [dependency:resolve].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.JavaExample [install].executor&quot;: &quot;Run&quot;,
-    &quot;Maven.JavaExample [test].executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;SONARLINT_PRECOMMIT_ANALYSIS&quot;: &quot;true&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
-    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last.edited.regexp&quot;: &quot;(1..6)    &quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Programming/Github/_Small/BookingIocDemo/BookingJava&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.JAVA&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Csv.executor": "Run",
+    "Application.Enum parser.executor": "Run",
+    "Application.Eval.executor": "Debug",
+    "Application.Json replacement.executor": "Run",
+    "Application.Main.executor": "Debug",
+    "Application.ObjEnrich.executor": "Debug",
+    "Application.Pipelines.executor": "Run",
+    "Application.Unnamed.executor": "Debug",
+    "Application.conditionalFormattingExcel.executor": "Debug",
+    "JUnit.All in JavaExample.executor": "Debug",
+    "JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel.executor": "Run",
+    "JUnit.ColumnDefinitionTest.executor": "Run",
+    "JUnit.ColumnDefinitionTest.testDeserialization_CompactData.executor": "Run",
+    "JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
+    "JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.EncodedObjectTest.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldDeserializeEncodedObject.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldDeserializeNestedStructure.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldExposeCorrectValueType.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldSerializeEncodedObject.executor": "Run",
+    "JUnit.EncodedObjectTest.shouldSerializeNestedStructure.executor": "Run",
+    "JUnit.EncodedStringTest.executor": "Run",
+    "JUnit.EncodedStringTest.shouldSerializeInnerCorrectly.executor": "Run",
+    "JUnit.EncodedStringTest.testNull.executor": "Run",
+    "JUnit.EncodedStringTest.testSerialization.executor": "Run",
+    "JUnit.EncodedStringTest.testSerialization.✅ NULL.executor": "Debug",
+    "JUnit.EncodedStringTest.testSerialization.✅ With emoji.executor": "Debug",
+    "JUnit.EncodingParserTest.executor": "Run",
+    "JUnit.EncodingParserTest.testDecoding.✅ Valid BASE64.executor": "Debug",
+    "JUnit.ExcelAssertTest.testExcelAssertions.executor": "Debug",
+    "JUnit.ExcelAssertTests.executor": "Run",
+    "JUnit.ExcelAssertTests.testExcelAssertions.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.fff.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.testAllAssertionsPass.executor": "Run",
+    "JUnit.ExcelSoftAssertionTest.testMultipleExcelCellFailures.executor": "Run",
+    "JUnit.FieldTranslationTest.executor": "Run",
+    "JUnit.FieldTranslationTest.testDeserialize_invalidInput.executor": "Run",
+    "JUnit.FieldTranslationTest.testSerializationAndDeserialization_UsingProvideData.[7] FieldTranslation[from=from1, to=to1, columnDefinition=MyDateColumnDefinition[format=date format]], .executor": "Debug",
+    "JUnit.FieldTranslationTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.FieldTranslationTest.write.executor": "Debug",
+    "JUnit.FormatTest.executor": "Run",
+    "JUnit.FormatTest.shouldDeserializeEmptyObjectToDefaultFixedFormat.executor": "Run",
+    "JUnit.FormatTest.shouldSerializeAndDeserializeFormat.executor": "Run",
+    "JUnit.FormatTest.shouldThrowJsonMappingExceptionForInvalidInputs.executor": "Run",
+    "JUnit.IndexSourceTest.compactingCases.executor": "Run",
+    "JUnit.IndexSourceTest.compactingCases.✅ Compacting: null.executor": "Debug",
+    "JUnit.IndexSourceTest.executor": "Run",
+    "JUnit.NumberAssertionTest.deserialization_Negative (1).executor": "Run",
+    "JUnit.NumberAssertionTest.deserialization_Negative.executor": "Run",
+    "JUnit.NumberAssertionTest.executor": "Run",
+    "JUnit.NumberAssertionTest.shouldFailAssertion.executor": "Run",
+    "JUnit.NumberAssertionTest.shouldPassAssertion.executor": "Run",
+    "JUnit.NumberAssertionTest.tt.executor": "Run",
+    "JUnit.NumberFormatTest.executor": "Debug",
+    "JUnit.NumberFormatTest.shouldDeserialize.✅ should deserialize to NumberFormat[fixedDecimalPlaces=2, percentDecimalPlaces=0, currencyDecimalPlaces=2].executor": "Debug",
+    "JUnit.NumberFormatTest.shouldDeserialize.✅ should deserialize to NumberFormat[fixedDecimalPlaces=44, percentDecimalPlaces=0, currencyDecimalPlaces=2].executor": "Debug",
+    "JUnit.NumberFormatTest.shouldFailDeserialization.executor": "Run",
+    "JUnit.PipelinrCommandArchTest.executor": "Run",
+    "JUnit.PipelinrHandlerArchTest.everyCommandHasHandler.executor": "Run",
+    "JUnit.PipelinrHandlerArchTest.executor": "Run",
+    "JUnit.RuleSerializationTest.executor": "Run",
+    "JUnit.RuleSerializationTest.serdes_UsingProvideData.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization (1).executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization.[17] FieldRule(inputs=[], outputs=[output1], mainRule=Rule7[message=info message, isError=false]), {\n  \"inputs\" : [ \"input1\", \"input2\" ],\n  \"outputs\" : [ ],\n  \"rule7\" : {\n    \"message\" : \"error message\",\n    \"isError\" : true\n  }\n}.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[14] FieldRule(inputs=[input1, input2], outputs=[], mainRule=Rule7[message=error message, isError=true, append=false, prepend=true]), {\n  \"inputs\" : [ \"input1\", \"input2\" ],\n  \"outputs\" : [ ],\n  \"rule7\" : {\n    \"message\" : \"error message\",\n    \"isError\" : true\n  }\n}.executor": "Debug",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[1] FieldRule(inputs=[input1, input2], outputs=[output1], mainRule=Rule1[expression=expression1]), {\n  \"inputs\" : [ \"input1\", \"input2\" ],\n  \"outputs\" : [ \"output1\" ],\n  \"rule1\" : {\n    \"expression\" : \"expression1\"\n  }\n}.executor": "Debug",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.[21] FieldRule(inputs=[], outputs=[], mainRule=Rule9[key=key2, value=]), {\n  \"inputs\" : [ ],\n  \"outputs\" : [ ],\n  \"rule9\" : {\n    \"key\" : \"key2\",\n    \"value\" : \"\"\n  }\n}.executor": "Debug",
+    "JUnit.RuleSerializationTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.SpecialObjectMapTest.executor": "Run",
+    "JUnit.SpecialObjectTest.executor": "Run",
+    "JUnit.TextAssertionTest.executor": "Run",
+    "JUnit.TextAssertionTest.shouldDeserializeTextAssertions.executor": "Run",
+    "JUnit.TextAssertionTest.shouldRejectInvalidJson.executor": "Run",
+    "JUnit.TextAssertionTest.shouldSerializeTextAssertions.executor": "Run",
+    "JUnit.TextAssertionTest.testContainsTextAssertion.executor": "Run",
+    "JUnit.TextAssertionTest.testEqualsTextAssertion.executor": "Run",
+    "JUnit.TextAssertionTest.testPatternTextAssertion.executor": "Run",
+    "JUnit.TypeMetaConformityTests.executor": "Run",
+    "JUnit.TypeMetaConformityTests.scanAllEnumsAndCustomClasses.executor": "Debug",
+    "JUnit.TypeMetaConformityTests.testActualDomainClasses.executor": "Run",
+    "JUnit.TypeMetaConformityTests.testClassMethods.4 => class=InheritedToStringClass, expectedFromMethod=true, expectedToString=false.executor": "Debug",
+    "JUnit.TypeMetaConformityTests.testClassMethods.executor": "Run",
+    "JUnit.UlpAssertionsTest.executor": "Run",
+    "JUnit.UlpAssertionsTest.maxValueAndNextAfterTowardInfinityExceedsUlps.executor": "Run",
+    "JUnit.UlpAssertionsTest.minValueAndZeroAreOneUlpApart.executor": "Run",
+    "JUnit.UlpAssertionsTest.nanComparisonFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.negativeInfinityAndFiniteValueFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.nextAfterIsOneUlpAway.executor": "Run",
+    "JUnit.UlpAssertionsTest.positiveAndNegativeInfinityAreNotClose.executor": "Run",
+    "JUnit.UlpAssertionsTest.positiveInfinityAndFiniteValueFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.valueExceedingMaxUlpsFails.executor": "Run",
+    "JUnit.UlpAssertionsTest.valueWithinFiveUlpsSucceeds.executor": "Run",
+    "JUnit.UlpAssertionsTest.valuesCloseToMaxValueWithinUlps.executor": "Run",
+    "JUnit.UtilsTest.executor": "Run",
+    "JUnit.UtilsTest.testFoldRightConcatenate.executor": "Run",
+    "JUnit.ValueTest.executor": "Run",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[10] 3.141592653589793E15, {\"double\":3141592653589793}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[11] NaN, {\"double\":\"NaN\"}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[5] 1234567890.1234567, {\"currency\":1234567890.1234567}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[5] 123456789012345678901234567890.1234567890123456789, {\"currency\":123456789012345678901234567890.1234567890123456789}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.[6] 123456789012345678901234567890.1234567890123456789, {\"currency\":123456789012345678901234567890.1234567890123456789}.executor": "Debug",
+    "JUnit.ValueTest.testSerializationAndDeserialization_UsingProvideData.executor": "Run",
+    "JUnit.base64Enc in JavaExample.executor": "Run",
+    "JUnit.excelAssertions in JavaExample (1).executor": "Run",
+    "JUnit.excelAssertions in JavaExample.executor": "Run",
+    "JavaClassFindUsagesOptions.isDerivedClasses": "true",
+    "JavaClassFindUsagesOptions.isSearchForTextOccurrences": "false",
+    "Maven.JavaExample [clean,install].executor": "Run",
+    "Maven.JavaExample [clean].executor": "Run",
+    "Maven.JavaExample [compile].executor": "Run",
+    "Maven.JavaExample [dependency:resolve].executor": "Run",
+    "Maven.JavaExample [install].executor": "Run",
+    "Maven.JavaExample [test].executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SONARLINT_PRECOMMIT_ANALYSIS": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last.edited.regexp": "(1..6)    ",
+    "last_opened_file_path": "D:/Programming/Github/_Small/BookingIocDemo/BookingJava",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.sourceCode.JAVA"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="org.example2" />
@@ -258,53 +261,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaExample" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="excelAssertions.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="excelAssertions" />
-      <option name="MAIN_CLASS_NAME" value="excelAssertions.AssertionReaderTest" />
-      <option name="METHOD_NAME" value="readFrom_ShouldReadAssertionsFromExcel" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ExcelSoftAssertionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaExample" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="excelAssertions.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="excelAssertions" />
-      <option name="MAIN_CLASS_NAME" value="excelAssertions.ExcelSoftAssertionTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="ExcelSoftAssertionTest.testAllAssertionsPass" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaExample" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="excelAssertions.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="excelAssertions" />
-      <option name="MAIN_CLASS_NAME" value="excelAssertions.ExcelSoftAssertionTest" />
-      <option name="METHOD_NAME" value="testAllAssertionsPass" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="NumberAssertionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
@@ -316,6 +272,52 @@
       <option name="PACKAGE_NAME" value="excelAssertions" />
       <option name="MAIN_CLASS_NAME" value="excelAssertions.NumberAssertionTest" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PipelinrCommandArchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pipelines.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pipelines" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.PipelinrCommandArchTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PipelinrHandlerArchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pipelines.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pipelines" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.PipelinrHandlerArchTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PipelinrHandlerArchTest.everyCommandHasHandler" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pipelines.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pipelines" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.PipelinrHandlerArchTest" />
+      <option name="METHOD_NAME" value="everyCommandHasHandler" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -336,19 +338,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.Pipelines" />
-      <item itemvalue="JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel" />
-      <item itemvalue="JUnit.ExcelSoftAssertionTest" />
-      <item itemvalue="JUnit.ExcelSoftAssertionTest.testAllAssertionsPass" />
+      <item itemvalue="JUnit.PipelinrCommandArchTest" />
+      <item itemvalue="JUnit.PipelinrHandlerArchTest" />
+      <item itemvalue="JUnit.PipelinrHandlerArchTest.everyCommandHasHandler" />
       <item itemvalue="JUnit.NumberAssertionTest" />
       <item itemvalue="JUnit.excelAssertions in JavaExample" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.PipelinrCommandArchTest" />
+        <item itemvalue="JUnit.PipelinrHandlerArchTest" />
+        <item itemvalue="JUnit.PipelinrHandlerArchTest.everyCommandHasHandler" />
         <item itemvalue="JUnit.excelAssertions in JavaExample" />
         <item itemvalue="JUnit.NumberAssertionTest" />
-        <item itemvalue="JUnit.ExcelSoftAssertionTest.testAllAssertionsPass" />
-        <item itemvalue="JUnit.ExcelSoftAssertionTest" />
-        <item itemvalue="JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel" />
       </list>
     </recent_temporary>
   </component>
@@ -360,14 +362,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732282684181</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Index source">
-      <option name="closed" value="true" />
-      <created>1747737709526</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1747737709526</updated>
     </task>
     <task id="LOCAL-00025" summary="conditional formatting init">
       <option name="closed" value="true" />
@@ -753,7 +747,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757671215092</updated>
     </task>
-    <option name="localTasksCounter" value="73" />
+    <task id="LOCAL-00073" summary="add spring as DI">
+      <option name="closed" value="true" />
+      <created>1757673572902</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1757673572902</updated>
+    </task>
+    <option name="localTasksCounter" value="74" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -862,6 +864,11 @@
           <url>file://$PROJECT_DIR$/src/main/java/conditionalFormattingExcel/Main.java</url>
           <line>42</line>
           <option name="timeStamp" value="58" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/pipelines/PipelinrCommandArchTest.java</url>
+          <line>43</line>
+          <option name="timeStamp" value="62" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

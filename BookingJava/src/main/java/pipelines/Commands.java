@@ -13,3 +13,5 @@ record GetBookingsQuery(Optional<String> hotelName, Optional<String> guestName) 
         this(Optional.empty(), Optional.empty());
     }
 }
+
+record DeleteBookingCommand(UUID bookingId) implements Command<Boolean> {}

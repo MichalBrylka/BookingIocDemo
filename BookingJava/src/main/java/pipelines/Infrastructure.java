@@ -16,6 +16,8 @@ interface BookingRepository {
     void add(Booking booking);
 
     List<Booking> getAll();
+
+    boolean delete(UUID bookingId);
 }
 
 @Repository
@@ -29,6 +31,11 @@ class InMemoryBookingRepository implements BookingRepository {
     public void add(Booking booking) {bookings.add(booking);}
 
     public List<Booking> getAll() {return Collections.unmodifiableList(bookings);}
+
+    @Override
+    public boolean delete(UUID bookingId) {
+        return bookings.removeIf(b -> b.id().equals(bookingId));
+    }
 }
 
 class JacksonJsonMapper implements JsonMapper {

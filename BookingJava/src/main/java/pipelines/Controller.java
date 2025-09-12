@@ -24,6 +24,16 @@ record BookingController(Pipeline pipeline) {
             ctx.json(Map.of("bookingId", bookingId.toString()));
         });
 
+        // DELETE /bookings/{bookingId}
+        app.delete("/bookings/{bookingId}", ctx -> {
+            String bookingId = ctx.pathParam("bookingId");
+            try {
+                boolean entityFound = pipeline.send(new DeleteBookingCommand(java.util.UUID.fromString(bookingId)));
+                ctx.status(entityFound ? 204 : 404);
+            } catch (Exception e) {
+                ctx.status(500).result("Internal Server Error: " + e.getMessage());
+            }
+        });
         // GET /bookings?hotelName=...&guestName=...
         app.get("/bookings", ctx -> {
             var hotelName = Optional.ofNullable(ctx.queryParam("hotelName"));

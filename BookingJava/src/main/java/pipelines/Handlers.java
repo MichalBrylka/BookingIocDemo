@@ -20,9 +20,15 @@ record BookHotelHandler(BookingRepository repository) implements Command.Handler
 record GetBookingsHandler(BookingRepository repository) implements Command.Handler<GetBookingsQuery, List<Booking>> {
     @Override
     public List<Booking> handle(GetBookingsQuery query) {
-        return repository.getAll().stream()
-                .filter(b -> query.hotelName().map(name -> b.hotelName().equalsIgnoreCase(name)).orElse(true))
-                .filter(b -> query.guestName().map(guest -> b.guestName().equalsIgnoreCase(guest)).orElse(true))
-                .collect(Collectors.toList());
+        return repository.getAll().stream().filter(b -> query.hotelName().map(name -> b.hotelName().equalsIgnoreCase(name)).orElse(true)).filter(b -> query.guestName().map(guest -> b.guestName().equalsIgnoreCase(guest)).orElse(true)).collect(Collectors.toList());
+    }
+}
+
+@Component
+record DeleteBookingsHandler(BookingRepository repository) implements Command.Handler<DeleteBookingCommand, Boolean> {
+
+    @Override
+    public Boolean handle(DeleteBookingCommand deleteBookingCommand) {
+        return repository.delete(deleteBookingCommand.bookingId());
     }
 }

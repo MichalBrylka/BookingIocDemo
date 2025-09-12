@@ -127,6 +127,14 @@
             <version>6.2.11</version>
         </dependency>
 
+        <!-- ArchUnit for architecture tests -->
+        <dependency>
+            <groupId>com.tngtech.archunit</groupId>
+            <artifactId>archunit-junit5</artifactId>
+            <version>1.4.1</version>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
