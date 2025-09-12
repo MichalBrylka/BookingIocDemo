@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Repository;
 
 import java.io.InputStream;
 import java.lang.reflect.Type;
@@ -17,6 +18,7 @@ interface BookingRepository {
     List<Booking> getAll();
 }
 
+@Repository
 class InMemoryBookingRepository implements BookingRepository {
     private final List<Booking> bookings = new ArrayList<>(List.of(
             new Booking(UUID.randomUUID(), "Hotel California", "Alice Smith", LocalDate.of(2024, 7, 1), LocalDate.of(2024, 7, 5)),

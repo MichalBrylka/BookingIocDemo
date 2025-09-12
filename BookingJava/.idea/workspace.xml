@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="init2">
+    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="add spring as DI">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/IoC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/IoC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -355,22 +360,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732282684181</updated>
-    </task>
-    <task id="LOCAL-00022" summary="Add JSON replacement">
-      <option name="closed" value="true" />
-      <created>1743538122895</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1743538122895</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Add JSON encoded object/string">
-      <option name="closed" value="true" />
-      <created>1743772903001</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1743772903001</updated>
     </task>
     <task id="LOCAL-00024" summary="Index source">
       <option name="closed" value="true" />
@@ -748,7 +737,23 @@
       <option name="project" value="LOCAL" />
       <updated>1757670687161</updated>
     </task>
-    <option name="localTasksCounter" value="71" />
+    <task id="LOCAL-00071" summary="remove Dagger as DI">
+      <option name="closed" value="true" />
+      <created>1757671171661</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1757671171661</updated>
+    </task>
+    <task id="LOCAL-00072" summary="remove Dagger as DI">
+      <option name="closed" value="true" />
+      <created>1757671215092</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1757671215092</updated>
+    </task>
+    <option name="localTasksCounter" value="73" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -763,8 +768,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add excel assertion: text assert" />
-    <MESSAGE value="add excel assertion: text assert serializer" />
     <MESSAGE value="add excel assertion: text assert serializer in" />
     <MESSAGE value="add excel assertion: error text assert" />
     <MESSAGE value="add excel assertion:  text assert" />
@@ -788,7 +791,9 @@
     <MESSAGE value="add booking demo in .NET" />
     <MESSAGE value="java booking demo refactor" />
     <MESSAGE value="init2" />
-    <option name="LAST_COMMIT_MESSAGE" value="init2" />
+    <MESSAGE value="remove Dagger as DI" />
+    <MESSAGE value="add spring as DI" />
+    <option name="LAST_COMMIT_MESSAGE" value="add spring as DI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

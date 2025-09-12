@@ -1,10 +1,12 @@
 package pipelines;
 
 import an.awesome.pipelinr.Command;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 record BookHotelHandler(BookingRepository repository) implements Command.Handler<BookHotelCommand, UUID> {
     @Override
     public UUID handle(BookHotelCommand command) {
@@ -14,6 +16,7 @@ record BookHotelHandler(BookingRepository repository) implements Command.Handler
     }
 }
 
+@Component
 record GetBookingsHandler(BookingRepository repository) implements Command.Handler<GetBookingsQuery, List<Booking>> {
     @Override
     public List<Booking> handle(GetBookingsQuery query) {
