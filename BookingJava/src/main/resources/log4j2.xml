@@ -15,6 +15,7 @@
         </Root>
 
         <!-- Custom Logger for Specific Package/Class -->
+        <logger name="org.eclipse.jetty" level="INFO"/>
         <Logger name="com.example" level="debug" additivity="false">
             <AppenderRef ref="Console"/>
         </Logger>

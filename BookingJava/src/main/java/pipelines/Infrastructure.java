@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 
+import java.time.LocalDate;
 import java.util.*;
 
 interface BookingRepository {
@@ -17,7 +18,11 @@ interface BookingRepository {
 }
 
 class InMemoryBookingRepository implements BookingRepository {
-    private final List<Booking> bookings = new ArrayList<>();
+    private final List<Booking> bookings = new ArrayList<>(List.of(
+            new Booking(UUID.randomUUID(), "Hotel California", "Alice Smith", LocalDate.of(2024, 7, 1), LocalDate.of(2024, 7, 5)),
+            new Booking(UUID.randomUUID(), "Grand Budapest", "Bob Johnson", LocalDate.of(2024, 8, 10), LocalDate.of(2024, 8, 15)),
+            new Booking(UUID.randomUUID(), "The Overlook", "Charlie Brown", LocalDate.of(2024, 9, 20), LocalDate.of(2024, 9, 22))
+    ));
 
     public void add(Booking booking) {bookings.add(booking);}
 
