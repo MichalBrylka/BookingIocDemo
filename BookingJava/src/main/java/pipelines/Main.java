@@ -8,15 +8,23 @@ import io.javalin.Javalin;
 
 public class Main {
     public static void main(String[] args) {
-        AppComponent app = DaggerAppComponent.create();
+        BookingRepository repository = new InMemoryBookingRepository();
 
-        Javalin javalin = Javalin.create(config -> {
+        List<Command.Handler> handlers = List.of(
+                new BookHotelHandler(repository),
+                new GetBookingsHandler(repository)
+        );
+
+        Pipelinr pipeline = new Pipelinr().with(() -> handlers.stream());
+
+
+        var app = Javalin.create(config -> {
             config.jsonMapper(new JacksonJsonMapper());
             config.bundledPlugins.enableDevLogging();
         }).start(8080);
 
-        new BookingController(app.pipeline()).registerRoutes(javalin);
 
-        System.out.println("🚀 Server running at http://localhost:8080");
+        new BookingController(pipeline).registerRoutes(app);
+        System.out.println("🚀 Server running at http://localhost:" + app.port());
     }
 }
