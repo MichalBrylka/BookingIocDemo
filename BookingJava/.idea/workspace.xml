@@ -4,7 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="add spring as DI">
+    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="add remaining verbs">
+      <change afterPath="$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" afterDir="false" />
@@ -27,8 +28,8 @@
       <list>
         <option value="Enum" />
         <option value="Interface" />
-        <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -95,6 +96,7 @@
     "Application.conditionalFormattingExcel.executor": "Debug",
     "JUnit.All in JavaExample.executor": "Debug",
     "JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel.executor": "Run",
+    "JUnit.BookingControllerTest.testCreateAndGetBooking.executor": "Debug",
     "JUnit.ColumnDefinitionTest.executor": "Run",
     "JUnit.ColumnDefinitionTest.testDeserialization_CompactData.executor": "Run",
     "JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
@@ -233,11 +235,11 @@
       <recent name="excelAssertions" />
     </key>
     <key name="CreateTestDialog.RecentsKey">
+      <recent name="pipelines" />
       <recent name="excelAssertions" />
       <recent name="conditionalFormattingExcel" />
       <recent name="rangeCust" />
       <recent name="base64Enc" />
-      <recent name="valueSerialization" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="excelAssertions" />
@@ -253,7 +255,7 @@
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="Application.Pipelines">
+  <component name="RunManager" selected="JUnit.BookingControllerTest.testCreateAndGetBooking">
     <configuration name="Pipelines" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="pipelines.Main" />
       <module name="JavaExample" />
@@ -261,17 +263,18 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="NumberAssertionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookingControllerTest.testCreateAndGetBooking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="excelAssertions.*" />
+          <option name="PATTERN" value="pipelines.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="excelAssertions" />
-      <option name="MAIN_CLASS_NAME" value="excelAssertions.NumberAssertionTest" />
-      <option name="TEST_OBJECT" value="class" />
+      <option name="PACKAGE_NAME" value="pipelines" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
+      <option name="METHOD_NAME" value="testCreateAndGetBooking" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -338,19 +341,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.Pipelines" />
+      <item itemvalue="JUnit.BookingControllerTest.testCreateAndGetBooking" />
       <item itemvalue="JUnit.PipelinrCommandArchTest" />
       <item itemvalue="JUnit.PipelinrHandlerArchTest" />
       <item itemvalue="JUnit.PipelinrHandlerArchTest.everyCommandHasHandler" />
-      <item itemvalue="JUnit.NumberAssertionTest" />
       <item itemvalue="JUnit.excelAssertions in JavaExample" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="JUnit.BookingControllerTest.testCreateAndGetBooking" />
         <item itemvalue="JUnit.PipelinrCommandArchTest" />
         <item itemvalue="JUnit.PipelinrHandlerArchTest" />
         <item itemvalue="JUnit.PipelinrHandlerArchTest.everyCommandHasHandler" />
         <item itemvalue="JUnit.excelAssertions in JavaExample" />
-        <item itemvalue="JUnit.NumberAssertionTest" />
       </list>
     </recent_temporary>
   </component>
@@ -362,14 +365,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732282684181</updated>
-    </task>
-    <task id="LOCAL-00025" summary="conditional formatting init">
-      <option name="closed" value="true" />
-      <created>1748959288378</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1748959288378</updated>
     </task>
     <task id="LOCAL-00026" summary="number format in compact form">
       <option name="closed" value="true" />
@@ -755,7 +750,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757673572902</updated>
     </task>
-    <option name="localTasksCounter" value="74" />
+    <task id="LOCAL-00074" summary="add arch tests">
+      <option name="closed" value="true" />
+      <created>1757685440795</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1757685440795</updated>
+    </task>
+    <option name="localTasksCounter" value="75" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -770,9 +773,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add excel assertion: text assert serializer in" />
-    <MESSAGE value="add excel assertion: error text assert" />
-    <MESSAGE value="add excel assertion:  text assert" />
     <MESSAGE value="add excel assertion: formula text assert" />
     <MESSAGE value="add excel assertion: format assert" />
     <MESSAGE value="add excel assertion: add sheet name to assertion" />
@@ -795,7 +795,10 @@
     <MESSAGE value="init2" />
     <MESSAGE value="remove Dagger as DI" />
     <MESSAGE value="add spring as DI" />
-    <option name="LAST_COMMIT_MESSAGE" value="add spring as DI" />
+    <MESSAGE value="add arch tests" />
+    <MESSAGE value="add remaoning verbs" />
+    <MESSAGE value="add remaining verbs" />
+    <option name="LAST_COMMIT_MESSAGE" value="add remaining verbs" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -869,6 +872,11 @@
           <url>file://$PROJECT_DIR$/src/test/java/pipelines/PipelinrCommandArchTest.java</url>
           <line>43</line>
           <option name="timeStamp" value="62" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java</url>
+          <line>59</line>
+          <option name="timeStamp" value="64" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

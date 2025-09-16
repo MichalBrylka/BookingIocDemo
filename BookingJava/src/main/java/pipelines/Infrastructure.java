@@ -6,6 +6,7 @@ import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Repository;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 
@@ -18,15 +19,23 @@ interface BookingRepository {
     List<Booking> getAll();
 
     boolean delete(UUID bookingId);
+
+    boolean update(Booking booking);
+
+    boolean patch(UUID bookingId, Map<String, Object> fields);
 }
 
 @Repository
 class InMemoryBookingRepository implements BookingRepository {
-    private final List<Booking> bookings = new ArrayList<>(List.of(
-            new Booking(UUID.randomUUID(), "Hotel California", "Alice Smith", LocalDate.of(2024, 7, 1), LocalDate.of(2024, 7, 5)),
-            new Booking(UUID.randomUUID(), "Grand Budapest", "Bob Johnson", LocalDate.of(2024, 8, 10), LocalDate.of(2024, 8, 15)),
-            new Booking(UUID.randomUUID(), "The Overlook", "Charlie Brown", LocalDate.of(2024, 9, 20), LocalDate.of(2024, 9, 22))
-    ));
+    private final List<Booking> bookings;
+
+    public InMemoryBookingRepository() {
+        this(null);
+    }
+
+    public InMemoryBookingRepository(List<Booking> bookings) {
+        this.bookings = bookings == null ? new ArrayList<>() : bookings;
+    }
 
     public void add(Booking booking) {bookings.add(booking);}
 
@@ -35,6 +44,33 @@ class InMemoryBookingRepository implements BookingRepository {
     @Override
     public boolean delete(UUID bookingId) {
         return bookings.removeIf(b -> b.id().equals(bookingId));
+    }
+
+    @Override
+    public boolean update(Booking booking) {
+        for (int i = 0; i < bookings.size(); i++) {
+            if (bookings.get(i).id().equals(booking.id())) {
+                bookings.set(i, booking);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean patch(UUID bookingId, Map<String, Object> fields) {
+        for (int i = 0; i < bookings.size(); i++) {
+            Booking b = bookings.get(i);
+            if (b.id().equals(bookingId)) {
+                String hotelName = fields.containsKey("hotelName") ? (String) fields.get("hotelName") : b.hotelName();
+                String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : b.guestName();
+                LocalDate checkIn = fields.containsKey("checkIn") ? LocalDate.parse((String) fields.get("checkIn")) : b.checkIn();
+                LocalDate checkOut = fields.containsKey("checkOut") ? LocalDate.parse((String) fields.get("checkOut")) : b.checkOut();
+                bookings.set(i, new Booking(b.id(), hotelName, guestName, checkIn, checkOut));
+                return true;
+            }
+        }
+        return false;
     }
 }
 
@@ -68,7 +104,7 @@ class JacksonJsonMapper implements JsonMapper {
     @Override
     public @NotNull InputStream toJsonStream(@NotNull Object obj, @NotNull Type type) {
         try {
-            return new java.io.ByteArrayInputStream(mapper.writeValueAsBytes(obj));
+            return new ByteArrayInputStream(mapper.writeValueAsBytes(obj));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

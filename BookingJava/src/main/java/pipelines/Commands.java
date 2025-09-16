@@ -15,3 +15,8 @@ record GetBookingsQuery(Optional<String> hotelName, Optional<String> guestName) 
 }
 
 record DeleteBookingCommand(UUID bookingId) implements Command<Boolean> {}
+
+record UpdateBookingCommand(UUID bookingId, String newHotelName, String newGuestName, LocalDate newCheckIn,
+                            LocalDate newCheckOut) implements Command<Boolean> {}
+
+record PatchBookingCommand(UUID bookingId, Map<String, Object> fields) implements Command<Boolean> {}

@@ -4,8 +4,7 @@ import an.awesome.pipelinr.Pipeline;
 import io.javalin.Javalin;
 
 import java.time.LocalDate;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 record BookingController(Pipeline pipeline) {
 
@@ -26,14 +25,23 @@ record BookingController(Pipeline pipeline) {
 
         // DELETE /bookings/{bookingId}
         app.delete("/bookings/{bookingId}", ctx -> {
-            String bookingId = ctx.pathParam("bookingId");
+
+            String bookingIdStr = ctx.pathParam("bookingId");
+            UUID bookingId = null;
             try {
-                boolean entityFound = pipeline.send(new DeleteBookingCommand(java.util.UUID.fromString(bookingId)));
+                bookingId = UUID.fromString(bookingIdStr);
+            } catch (IllegalArgumentException e) {
+                ctx.status(400).result("Invalid bookingId format: " + e.getMessage());
+            }
+            try {
+                boolean entityFound = pipeline.send(new DeleteBookingCommand(bookingId));
                 ctx.status(entityFound ? 204 : 404);
             } catch (Exception e) {
                 ctx.status(500).result("Internal Server Error: " + e.getMessage());
             }
         });
+
+
         // GET /bookings?hotelName=...&guestName=...
         app.get("/bookings", ctx -> {
             var hotelName = Optional.ofNullable(ctx.queryParam("hotelName"));
@@ -45,6 +53,38 @@ record BookingController(Pipeline pipeline) {
                 ctx.json(bookings);
             } catch (Exception e) {
                 ctx.status(500).result("Internal Server Error: " + e.getMessage());
+            }
+        });
+
+        // PUT /bookings/{bookingId}
+        app.put("/bookings/{bookingId}", ctx -> {
+            String bookingId = ctx.pathParam("bookingId");
+            var body = ctx.bodyAsClass(Map.class);
+            try {
+                var hotel = (String) body.get("hotelName");
+                var guest = (String) body.get("guestName");
+                var checkIn = LocalDate.parse((String) body.get("checkIn"));
+                var checkOut = LocalDate.parse((String) body.get("checkOut"));
+                boolean updated = pipeline.send(new UpdateBookingCommand(
+                        java.util.UUID.fromString(bookingId), hotel, guest, checkIn, checkOut
+                ));
+                ctx.status(updated ? 204 : 404);
+            } catch (Exception e) {
+                ctx.status(400).result("Invalid request: " + e.getMessage());
+            }
+        });
+
+        // PATCH /bookings/{bookingId}
+        app.patch("/bookings/{bookingId}", ctx -> {
+            String bookingId = ctx.pathParam("bookingId");
+            var body = ctx.bodyAsClass(Map.class);
+            try {
+                boolean patched = pipeline.send(new PatchBookingCommand(
+                        java.util.UUID.fromString(bookingId), body
+                ));
+                ctx.status(patched ? 204 : 404);
+            } catch (Exception e) {
+                ctx.status(400).result("Invalid request: " + e.getMessage());
             }
         });
     }

@@ -32,3 +32,26 @@ record DeleteBookingsHandler(BookingRepository repository) implements Command.Ha
         return repository.delete(deleteBookingCommand.bookingId());
     }
 }
+
+@Component
+record UpdateBookingHandler(BookingRepository repository) implements Command.Handler<UpdateBookingCommand, Boolean> {
+    @Override
+    public Boolean handle(UpdateBookingCommand command) {
+        Booking booking = new Booking(
+                command.bookingId(),
+                command.newHotelName(),
+                command.newGuestName(),
+                command.newCheckIn(),
+                command.newCheckOut()
+        );
+        return repository.update(booking);
+    }
+}
+
+@Component
+record PatchBookingHandler(BookingRepository repository) implements Command.Handler<PatchBookingCommand, Boolean> {
+    @Override
+    public Boolean handle(PatchBookingCommand command) {
+        return repository.patch(command.bookingId(), command.fields());
+    }
+}
