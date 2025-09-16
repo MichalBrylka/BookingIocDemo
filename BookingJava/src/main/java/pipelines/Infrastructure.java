@@ -37,7 +37,9 @@ class InMemoryBookingRepository implements BookingRepository {
         this.bookings = bookings == null ? new ArrayList<>() : bookings;
     }
 
-    public void add(Booking booking) {bookings.add(booking);}
+    public void add(Booking booking) {
+        bookings.add(booking);
+    }
 
     public List<Booking> getAll() {return Collections.unmodifiableList(bookings);}
 

@@ -8,9 +8,6 @@
       <change afterPath="$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Controller.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -96,7 +93,12 @@
     "Application.conditionalFormattingExcel.executor": "Debug",
     "JUnit.All in JavaExample.executor": "Debug",
     "JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel.executor": "Run",
-    "JUnit.BookingControllerTest.testCreateAndGetBooking.executor": "Debug",
+    "JUnit.BookingControllerTest.testCreateAndGetBooking.executor": "Run",
+    "JUnit.BookingControllerTest.testDeleteBooking.executor": "Run",
+    "JUnit.BookingControllerTest.testGetBooking.executor": "Run",
+    "JUnit.BookingControllerTest.testPatchBooking.executor": "Run",
+    "JUnit.BookingControllerTest.testPipelinrPipelineWithHandlers.executor": "Run",
+    "JUnit.BookingControllerTest.testUpdateBooking.executor": "Run",
     "JUnit.ColumnDefinitionTest.executor": "Run",
     "JUnit.ColumnDefinitionTest.testDeserialization_CompactData.executor": "Run",
     "JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
@@ -255,7 +257,7 @@
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.BookingControllerTest.testCreateAndGetBooking">
+  <component name="RunManager" selected="JUnit.All in JavaExample">
     <configuration name="Pipelines" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="pipelines.Main" />
       <module name="JavaExample" />
@@ -263,7 +265,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookingControllerTest.testCreateAndGetBooking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in JavaExample" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookingControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
         <pattern>
@@ -273,28 +283,12 @@
       </extension>
       <option name="PACKAGE_NAME" value="pipelines" />
       <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
-      <option name="METHOD_NAME" value="testCreateAndGetBooking" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PipelinrCommandArchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaExample" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="pipelines.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="pipelines" />
-      <option name="MAIN_CLASS_NAME" value="pipelines.PipelinrCommandArchTest" />
       <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="PipelinrHandlerArchTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookingControllerTest.testDeleteBooking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
         <pattern>
@@ -303,57 +297,60 @@
         </pattern>
       </extension>
       <option name="PACKAGE_NAME" value="pipelines" />
-      <option name="MAIN_CLASS_NAME" value="pipelines.PipelinrHandlerArchTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="PipelinrHandlerArchTest.everyCommandHasHandler" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaExample" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="pipelines.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="pipelines" />
-      <option name="MAIN_CLASS_NAME" value="pipelines.PipelinrHandlerArchTest" />
-      <option name="METHOD_NAME" value="everyCommandHasHandler" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
+      <option name="METHOD_NAME" value="testDeleteBooking" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="excelAssertions in JavaExample" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookingControllerTest.testPatchBooking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="excelAssertions.*" />
+          <option name="PATTERN" value="pipelines.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
-      <option name="PACKAGE_NAME" value="excelAssertions" />
-      <option name="TEST_OBJECT" value="package" />
+      <option name="PACKAGE_NAME" value="pipelines" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
+      <option name="METHOD_NAME" value="testPatchBooking" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookingControllerTest.testPipelinrPipelineWithHandlers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pipelines.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pipelines" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
+      <option name="METHOD_NAME" value="testPipelinrPipelineWithHandlers" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
       <item itemvalue="Application.Pipelines" />
-      <item itemvalue="JUnit.BookingControllerTest.testCreateAndGetBooking" />
-      <item itemvalue="JUnit.PipelinrCommandArchTest" />
-      <item itemvalue="JUnit.PipelinrHandlerArchTest" />
-      <item itemvalue="JUnit.PipelinrHandlerArchTest.everyCommandHasHandler" />
-      <item itemvalue="JUnit.excelAssertions in JavaExample" />
+      <item itemvalue="JUnit.All in JavaExample" />
+      <item itemvalue="JUnit.BookingControllerTest" />
+      <item itemvalue="JUnit.BookingControllerTest.testDeleteBooking" />
+      <item itemvalue="JUnit.BookingControllerTest.testPatchBooking" />
+      <item itemvalue="JUnit.BookingControllerTest.testPipelinrPipelineWithHandlers" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.BookingControllerTest.testCreateAndGetBooking" />
-        <item itemvalue="JUnit.PipelinrCommandArchTest" />
-        <item itemvalue="JUnit.PipelinrHandlerArchTest" />
-        <item itemvalue="JUnit.PipelinrHandlerArchTest.everyCommandHasHandler" />
-        <item itemvalue="JUnit.excelAssertions in JavaExample" />
+        <item itemvalue="JUnit.All in JavaExample" />
+        <item itemvalue="JUnit.BookingControllerTest" />
+        <item itemvalue="JUnit.BookingControllerTest.testPipelinrPipelineWithHandlers" />
+        <item itemvalue="JUnit.BookingControllerTest.testDeleteBooking" />
+        <item itemvalue="JUnit.BookingControllerTest.testPatchBooking" />
       </list>
     </recent_temporary>
   </component>
@@ -365,14 +362,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732282684181</updated>
-    </task>
-    <task id="LOCAL-00026" summary="number format in compact form">
-      <option name="closed" value="true" />
-      <created>1748961957011</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1748961957012</updated>
     </task>
     <task id="LOCAL-00027" summary="formated number">
       <option name="closed" value="true" />
@@ -758,7 +747,15 @@
       <option name="project" value="LOCAL" />
       <updated>1757685440795</updated>
     </task>
-    <option name="localTasksCounter" value="75" />
+    <task id="LOCAL-00075" summary="add remaining verbs">
+      <option name="closed" value="true" />
+      <created>1758008089055</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1758008089055</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -803,80 +800,105 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>38</line>
           <option name="timeStamp" value="29" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/org/example/FieldTranslationTest.java</url>
           <line>30</line>
           <option name="timeStamp" value="30" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>13</line>
           <option name="timeStamp" value="31" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/valueSerialization/TypeMetaConformityTests.java</url>
           <line>14</line>
           <option name="timeStamp" value="34" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>63</line>
           <option name="timeStamp" value="35" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
           <line>12</line>
           <option name="timeStamp" value="36" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/valueSerialization/ValueSerdes.java</url>
           <line>183</line>
           <option name="timeStamp" value="41" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/valueSerialization/ValueTest.java</url>
           <line>39</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/evaluation/Main.java</url>
           <line>17</line>
           <option name="timeStamp" value="45" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/objectEnricher/Main.java</url>
           <line>30</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/objectEnricher/Main.java</url>
           <line>14</line>
           <option name="timeStamp" value="47" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/rangeCust/IndexSourceTest.java</url>
           <line>152</line>
           <option name="timeStamp" value="51" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/conditionalFormattingExcel/Main.java</url>
           <line>42</line>
           <option name="timeStamp" value="58" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
+        <line-breakpoint type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/pipelines/PipelinrCommandArchTest.java</url>
           <line>43</line>
           <option name="timeStamp" value="62" />
         </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Controller.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="66" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java</url>
+          <line>40</line>
+          <option name="timeStamp" value="68" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java</url>
+          <line>58</line>
+          <option name="timeStamp" value="71" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Controller.java</url>
+          <line>60</line>
+          <option name="timeStamp" value="72" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java</url>
+          <line>52</line>
+          <option name="timeStamp" value="73" />
+        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java</url>
-          <line>59</line>
-          <option name="timeStamp" value="64" />
+          <line>126</line>
+          <option name="timeStamp" value="74" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
