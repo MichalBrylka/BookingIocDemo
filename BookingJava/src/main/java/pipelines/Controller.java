@@ -2,10 +2,12 @@ package pipelines;
 
 import an.awesome.pipelinr.Pipeline;
 import io.javalin.Javalin;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.*;
 
+@Component
 record BookingController(Pipeline pipeline) {
 
     public void registerRoutes(Javalin app) {

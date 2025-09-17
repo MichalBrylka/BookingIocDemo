@@ -16,16 +16,6 @@ class IoC {
     }
 
     @Bean
-    public JacksonJsonMapper jacksonJsonMapper() {
-        return new JacksonJsonMapper();
-    }
-
-    @Bean
-    public BookingController bookingController(Pipelinr pipelinr) {
-        return new BookingController(pipelinr);
-    }
-
-    @Bean
     public Javalin javalin(JacksonJsonMapper jacksonJsonMapper, BookingController bookingController) {
         var app = Javalin.create(config -> {
             config.jsonMapper(jacksonJsonMapper);
