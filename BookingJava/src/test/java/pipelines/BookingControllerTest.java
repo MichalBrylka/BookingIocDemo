@@ -1,6 +1,5 @@
 package pipelines;
 
-import an.awesome.pipelinr.Pipelinr;
 import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import org.jetbrains.annotations.NotNull;
@@ -14,37 +13,51 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class BookingControllerTest {
-    private Pipelinr pipelinr;
-    private List<@NotNull Booking> bookings;
+    private static final UUID notExistingId = new UUID(Long.MAX_VALUE, Long.MAX_VALUE);
+    private LinkedHashMap<@NotNull UUID, @NotNull Booking> bookings;
     private Javalin app;
 
     @BeforeEach
     void setup() {
-        bookings = new ArrayList<>(List.of(
+        bookings = Stream.of(
                 new Booking(new UUID(0L, 1L), "Hotel California", "Alice Smith", LocalDate.of(2024, 7, 1), LocalDate.of(2024, 7, 5)),
                 new Booking(new UUID(0L, 2L), "Grand Budapest", "Bob Johnson", LocalDate.of(2024, 8, 10), LocalDate.of(2024, 8, 15)),
                 new Booking(new UUID(0L, 3L), "The Overlook", "Charlie Brown", LocalDate.of(2024, 9, 20), LocalDate.of(2024, 9, 22))
+        ).collect(Collectors.toMap(
+                Booking::id,
+                booking -> booking,
+                (existing, replacement) -> existing,
+                LinkedHashMap::new
         ));
 
-        var repository = new InMemoryBookingRepository(bookings);
+        var repository = new InMemoryBookingRepository(bookings) {
+            private final AtomicLong counter = new AtomicLong(10L);
 
-        pipelinr = new Pipelinr().with(() -> Stream.of(
-                new BookHotelHandler(repository),
-                new GetBookingsHandler(repository),
-                new DeleteBookingsHandler(repository),
-                new UpdateBookingHandler(repository),
-                new PatchBookingHandler(repository),
-                new GetBookingsByIdHandler(repository)
-        ));
-        var controller = new BookingController(pipelinr);
+            @Override
+            public UUID getNextId() {
+                return new UUID(0L, counter.getAndIncrement());
+            }
+        };
+
+        var controller = new BookingController(TestPipeline.create(repository));
         app = Javalin.create(config -> config.showJavalinBanner = false);
         controller.registerRoutes(app);
+    }
+
+    private Booking getFirstBooking() {
+        return bookings.values().iterator().next();
+    }
+
+    private Booking getLastBooking() {
+        return bookings.values().stream().reduce((first, second) -> second).orElse(null);
     }
 
     @Test
@@ -54,7 +67,7 @@ class BookingControllerTest {
             try (var postRes = client.post("/bookings", booking)) {
                 assertThat(postRes.code()).isEqualTo(201);
                 assertThat(postRes.body()).isNotNull();
-                assertThatJson(postRes.body().string()).node("bookingId").isEqualTo(bookings.getLast().id().toString());
+                assertThatJson(postRes.body().string()).node("bookingId").isEqualTo(getLastBooking().id().toString());
             }
         });
     }
@@ -75,11 +88,11 @@ class BookingControllerTest {
     @Test
     void testGetByIdBooking() {
         JavalinTest.test(app, (server, client) -> {
-            try (var response = client.get("/bookings/" + bookings.getFirst().id())) {
+            try (var response = client.get("/bookings/" + getFirstBooking().id())) {
                 assertThat(response.code()).isEqualTo(200);
                 assertThat(response.body()).isNotNull();
                 assertThatJson(response.body().string())
-                        .node("guestName").isEqualTo(bookings.getFirst().guestName());
+                        .node("guestName").isEqualTo(getFirstBooking().guestName());
             }
         });
     }
@@ -94,8 +107,8 @@ class BookingControllerTest {
                     "checkOut", "2024-07-15"
             );
             Booking updatedBooking;
-            try (var response = client.put("/bookings/" + bookings.getFirst().id(), updatedMap)) {
-                updatedBooking = bookings.getFirst();
+            try (var response = client.put("/bookings/" + getFirstBooking().id(), updatedMap)) {
+                updatedBooking = getFirstBooking();
                 assertThat(response.code()).isEqualTo(204);
             }
             assertThat(updatedBooking.hotelName()).isEqualTo("HotelB");
@@ -109,11 +122,11 @@ class BookingControllerTest {
     void testPatchBooking() {
         JavalinTest.test(app, (server, client) -> {
             var patch = Map.of("guestName", "PatchedName");
-            try (var response = client.patch("/bookings/" + bookings.getFirst().id(), patch)) {
+            try (var response = client.patch("/bookings/" + getFirstBooking().id(), patch)) {
                 assertThat(response.code()).isEqualTo(204);
             }
 
-            var patchedBooking = bookings.getFirst();
+            var patchedBooking = getFirstBooking();
             assertThat(patchedBooking.guestName()).isEqualTo("PatchedName");
             assertThat(patchedBooking.hotelName()).isEqualTo("Hotel California"); // unchanged
             assertThat(patchedBooking.checkIn()).isEqualTo(LocalDate.of(2024, 7, 1)); // unchanged
@@ -125,7 +138,7 @@ class BookingControllerTest {
     @Test
     void testDeleteBooking() {
         JavalinTest.test(app, (server, client) -> {
-            var deleteUrl = "/bookings/" + bookings.getFirst().id();
+            var deleteUrl = "/bookings/" + getFirstBooking().id();
 
             try (var response = client.delete(deleteUrl)) {
                 assertThat(response.code()).isEqualTo(204);
@@ -139,24 +152,6 @@ class BookingControllerTest {
         });
     }
 
-    @Test
-    void testPipelinrPipelineWithHandlers() {
-        UUID id = pipelinr.send(new BookHotelCommand("HotelX", "Eve", LocalDate.now(), LocalDate.now().plusDays(2)));
-        assertThat(id).isNotNull();
-
-        pipelinr.send(new GetBookingsQuery(Optional.empty(), Optional.empty()));
-        assertThat(bookings).hasSize(4);
-
-        boolean updated = pipelinr.send(new UpdateBookingCommand(id, "UpdatedHotel", "Eve", LocalDate.now(), LocalDate.now().plusDays(3)));
-        assertThat(updated).isTrue();
-
-        boolean patched = pipelinr.send(new PatchBookingCommand(id, Map.of("guestName", "Frank")));
-        assertThat(patched).isTrue();
-
-        boolean deleted = pipelinr.send(new DeleteBookingCommand(id));
-        assertThat(deleted).isTrue();
-        assertThat(bookings).hasSize(3);
-    }
 
     static Stream<Arguments> invalidRequests() {
         return Stream.of(
@@ -211,7 +206,7 @@ class BookingControllerTest {
         return Stream.of(
                 Arguments.of(Named.of("Invalid UUID format", "not-a-uuid"), 400, "Invalid format for UUID path parameter bookingId: Invalid UUID string: not-a-uuid"),
 
-                Arguments.of(Named.of("Non-existing booking", new UUID(Long.MAX_VALUE, Long.MAX_VALUE).toString()), 404, null)
+                Arguments.of(Named.of("Non-existing booking", notExistingId.toString()), 404, null)
         );
     }
 
@@ -272,7 +267,7 @@ class BookingControllerTest {
                 // not existing ID
                 Arguments.of(Named.of("Not existing booking UUID",
                                 Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
-                        new UUID(Long.MAX_VALUE, Long.MAX_VALUE).toString(), "Booking ID not found", 404)
+                        notExistingId.toString(), "Booking ID not found", 404)
         );
     }
 

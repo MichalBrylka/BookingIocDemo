@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import io.javalin.http.BadRequestResponse;
 import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -21,6 +20,8 @@ import java.time.LocalDate;
 import java.util.*;
 
 interface BookingRepository {
+    UUID getNextId();
+
     void add(Booking booking);
 
     List<Booking> getAll();
@@ -36,61 +37,62 @@ interface BookingRepository {
 
 @Repository
 class InMemoryBookingRepository implements BookingRepository {
-    private final List<Booking> bookings;
+    private final Map<UUID, Booking> bookings;
 
     public InMemoryBookingRepository() {
         this(null);
     }
 
-    public InMemoryBookingRepository(List<Booking> bookings) {
-        this.bookings = bookings == null ? new ArrayList<>() : bookings;
+    public InMemoryBookingRepository(Map<UUID, Booking> bookings) {
+        this.bookings = bookings == null ? new HashMap<>() : bookings;
+    }
+
+    @Override
+    public UUID getNextId() {
+        return UUID.randomUUID();
     }
 
     public void add(Booking booking) {
         booking.validate();
-        bookings.add(booking);
+        bookings.put(booking.id(), booking);
     }
 
-    public List<Booking> getAll() {return Collections.unmodifiableList(bookings);}
+    public List<Booking> getAll() {
+        return List.copyOf(bookings.values());
+    }
 
     @Override
     public Booking getById(UUID bookingId) {
-        return bookings.stream().filter(b -> b.id().equals(bookingId)).findFirst().orElse(null);
+        return bookings.get(bookingId);
     }
 
     @Override
     public boolean delete(UUID bookingId) {
-        return bookings.removeIf(b -> b.id().equals(bookingId));
+        return bookings.remove(bookingId) != null;
     }
 
     @Override
     public boolean update(Booking booking) {
         booking.validate();
-
-        for (int i = 0; i < bookings.size(); i++) {
-            if (bookings.get(i).id().equals(booking.id())) {
-                bookings.set(i, booking);
-                return true;
-            }
+        if (bookings.containsKey(booking.id())) {
+            bookings.put(booking.id(), booking);
+            return true;
         }
         return false;
     }
 
     @Override
     public boolean patch(UUID bookingId, Map<String, Object> fields) {
-        for (int i = 0; i < bookings.size(); i++) {
-            Booking old = bookings.get(i);
-            if (old.id().equals(bookingId)) {
-                String hotelName = fields.containsKey("hotelName") ? (String) fields.get("hotelName") : old.hotelName();
-                String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : old.guestName();
-                LocalDate checkIn = fields.containsKey("checkIn") ? getDateFromBody(fields, "checkIn") : old.checkIn();
-                LocalDate checkOut = fields.containsKey("checkOut") ? getDateFromBody(fields, "checkOut") : old.checkOut();
+        Booking old = bookings.get(bookingId);
+        if (old == null) return false;
 
-                bookings.set(i, new Booking(old.id(), hotelName, guestName, checkIn, checkOut).validate());
-                return true;
-            }
-        }
-        return false;
+        String hotelName = fields.containsKey("hotelName") ? (String) fields.get("hotelName") : old.hotelName();
+        String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : old.guestName();
+        LocalDate checkIn = fields.containsKey("checkIn") ? getDateFromBody(fields, "checkIn") : old.checkIn();
+        LocalDate checkOut = fields.containsKey("checkOut") ? getDateFromBody(fields, "checkOut") : old.checkOut();
+
+        bookings.put(bookingId, new Booking(bookingId, hotelName, guestName, checkIn, checkOut).validate());
+        return true;
     }
 
     private static LocalDate getDateFromBody(Map<String, Object> fields, String fieldName) {
@@ -98,11 +100,12 @@ class InMemoryBookingRepository implements BookingRepository {
             var dateStr = (String) fields.get(fieldName);
             return LocalDate.parse(dateStr);
         } catch (Exception e) {
-            throw new IllegalArgumentException("Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s".formatted(fieldName, e.getMessage()));
+            throw new IllegalArgumentException(
+                    "Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s"
+                            .formatted(fieldName, e.getMessage())
+            );
         }
     }
-
-
 }
 
 @Component

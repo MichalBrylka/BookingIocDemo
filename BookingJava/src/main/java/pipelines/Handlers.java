@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 record BookHotelHandler(BookingRepository repository) implements Command.Handler<BookHotelCommand, UUID> {
     @Override
     public UUID handle(BookHotelCommand command) {
-        var booking = new Booking(UUID.randomUUID(), command.hotelName(), command.guestName(), command.checkIn(), command.checkOut());
+        var booking = new Booking(repository.getNextId(), command.hotelName(), command.guestName(), command.checkIn(), command.checkOut());
         repository.add(booking);
         return booking.id();
     }
