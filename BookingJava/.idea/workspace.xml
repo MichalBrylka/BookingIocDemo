@@ -4,11 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="add remaining verbs">
-      <change afterPath="$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java" afterDir="false" />
+    <list default="true" id="da28639d-4ae8-4991-bdce-bfcf3fb1e279" name="Changes" comment="add API tests">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Commands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Controller.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Controller.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Handlers.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/IoC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/IoC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pipelines/Middleware.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pipelines/Middleware.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,14 +95,20 @@
     "Application.Pipelines.executor": "Run",
     "Application.Unnamed.executor": "Debug",
     "Application.conditionalFormattingExcel.executor": "Debug",
-    "JUnit.All in JavaExample.executor": "Debug",
+    "JUnit.All in JavaExample (1).executor": "Run",
+    "JUnit.All in JavaExample.executor": "Run",
     "JUnit.AssertionReaderTest.readFrom_ShouldReadAssertionsFromExcel.executor": "Run",
     "JUnit.BookingControllerTest.testCreateAndGetBooking.executor": "Run",
+    "JUnit.BookingControllerTest.testCreateBookingValidation.executor": "Run",
     "JUnit.BookingControllerTest.testDeleteBooking.executor": "Run",
+    "JUnit.BookingControllerTest.testDeleteBookingValidation.executor": "Run",
+    "JUnit.BookingControllerTest.testDeleteBookingValidation.❌ Invalid UUID format.executor": "Debug",
     "JUnit.BookingControllerTest.testGetBooking.executor": "Run",
     "JUnit.BookingControllerTest.testPatchBooking.executor": "Run",
     "JUnit.BookingControllerTest.testPipelinrPipelineWithHandlers.executor": "Run",
     "JUnit.BookingControllerTest.testUpdateBooking.executor": "Run",
+    "JUnit.BookingControllerTest.testUpdateBookingValidation (1).executor": "Run",
+    "JUnit.BookingControllerTest.testUpdateBookingValidation.executor": "Run",
     "JUnit.ColumnDefinitionTest.executor": "Run",
     "JUnit.ColumnDefinitionTest.testDeserialization_CompactData.executor": "Run",
     "JUnit.ColumnDefinitionTest.testSerializationAndDeserialization_UsingFaker.executor": "Run",
@@ -257,7 +267,7 @@
       <command value="mvn clean install" />
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.All in JavaExample">
+  <component name="RunManager" selected="JUnit.BookingControllerTest.testUpdateBookingValidation (1)">
     <configuration name="Pipelines" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="pipelines.Main" />
       <module name="JavaExample" />
@@ -265,7 +275,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="All in JavaExample" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="All in JavaExample (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <option name="PACKAGE_NAME" value="" />
       <option name="TEST_OBJECT" value="package" />
@@ -273,7 +283,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookingControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookingControllerTest.testDeleteBookingValidation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
         <pattern>
@@ -283,28 +293,13 @@
       </extension>
       <option name="PACKAGE_NAME" value="pipelines" />
       <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
-      <option name="TEST_OBJECT" value="class" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="BookingControllerTest.testDeleteBooking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="JavaExample" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="pipelines.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="pipelines" />
-      <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
-      <option name="METHOD_NAME" value="testDeleteBooking" />
+      <option name="METHOD_NAME" value="testDeleteBookingValidation(java.lang.String,int,java.lang.String)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookingControllerTest.testPatchBooking" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookingControllerTest.testDeleteBookingValidation.❌ Invalid UUID format" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
         <pattern>
@@ -314,13 +309,32 @@
       </extension>
       <option name="PACKAGE_NAME" value="pipelines" />
       <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
-      <option name="METHOD_NAME" value="testPatchBooking" />
+      <option name="METHOD_NAME" value="testDeleteBookingValidation(java.lang.String,int,java.lang.String)" />
+      <option name="TEST_OBJECT" value="uniqueId" />
+      <uniqueIds>
+        <uniqueId value="[engine:junit-jupiter]/[class:pipelines.BookingControllerTest]/[test-template:testDeleteBookingValidation(java.lang.String, int, java.lang.String)]/[test-template-invocation:#1]" />
+      </uniqueIds>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="BookingControllerTest.testUpdateBookingValidation (1)" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="JavaExample" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="pipelines.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="pipelines" />
+      <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
+      <option name="METHOD_NAME" value="testUpdateBookingValidation(java.util.Map,java.lang.String,java.lang.String,int)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="BookingControllerTest.testPipelinrPipelineWithHandlers" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="BookingControllerTest.testUpdateBookingValidation" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="JavaExample" />
       <extension name="coverage">
         <pattern>
@@ -330,7 +344,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="pipelines" />
       <option name="MAIN_CLASS_NAME" value="pipelines.BookingControllerTest" />
-      <option name="METHOD_NAME" value="testPipelinrPipelineWithHandlers" />
+      <option name="METHOD_NAME" value="testUpdateBookingValidation(java.util.Map,java.lang.String,int)" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -338,19 +352,19 @@
     </configuration>
     <list>
       <item itemvalue="Application.Pipelines" />
-      <item itemvalue="JUnit.All in JavaExample" />
-      <item itemvalue="JUnit.BookingControllerTest" />
-      <item itemvalue="JUnit.BookingControllerTest.testDeleteBooking" />
-      <item itemvalue="JUnit.BookingControllerTest.testPatchBooking" />
-      <item itemvalue="JUnit.BookingControllerTest.testPipelinrPipelineWithHandlers" />
+      <item itemvalue="JUnit.All in JavaExample (1)" />
+      <item itemvalue="JUnit.BookingControllerTest.testDeleteBookingValidation" />
+      <item itemvalue="JUnit.BookingControllerTest.testDeleteBookingValidation.❌ Invalid UUID format" />
+      <item itemvalue="JUnit.BookingControllerTest.testUpdateBookingValidation" />
+      <item itemvalue="JUnit.BookingControllerTest.testUpdateBookingValidation (1)" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.All in JavaExample" />
-        <item itemvalue="JUnit.BookingControllerTest" />
-        <item itemvalue="JUnit.BookingControllerTest.testPipelinrPipelineWithHandlers" />
-        <item itemvalue="JUnit.BookingControllerTest.testDeleteBooking" />
-        <item itemvalue="JUnit.BookingControllerTest.testPatchBooking" />
+        <item itemvalue="JUnit.BookingControllerTest.testUpdateBookingValidation (1)" />
+        <item itemvalue="JUnit.BookingControllerTest.testUpdateBookingValidation" />
+        <item itemvalue="JUnit.BookingControllerTest.testDeleteBookingValidation" />
+        <item itemvalue="JUnit.All in JavaExample (1)" />
+        <item itemvalue="JUnit.BookingControllerTest.testDeleteBookingValidation.❌ Invalid UUID format" />
       </list>
     </recent_temporary>
   </component>
@@ -362,14 +376,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1732282684181</updated>
-    </task>
-    <task id="LOCAL-00027" summary="formated number">
-      <option name="closed" value="true" />
-      <created>1748965024114</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1748965024114</updated>
     </task>
     <task id="LOCAL-00028" summary="formated number">
       <option name="closed" value="true" />
@@ -755,7 +761,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758008089055</updated>
     </task>
-    <option name="localTasksCounter" value="76" />
+    <task id="LOCAL-00076" summary="add API tests">
+      <option name="closed" value="true" />
+      <created>1758109480966</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1758109480966</updated>
+    </task>
+    <option name="localTasksCounter" value="77" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -770,7 +784,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add excel assertion: formula text assert" />
     <MESSAGE value="add excel assertion: format assert" />
     <MESSAGE value="add excel assertion: add sheet name to assertion" />
     <MESSAGE value="add excel assertion: add simple assertion without value check" />
@@ -795,110 +808,16 @@
     <MESSAGE value="add arch tests" />
     <MESSAGE value="add remaoning verbs" />
     <MESSAGE value="add remaining verbs" />
-    <option name="LAST_COMMIT_MESSAGE" value="add remaining verbs" />
+    <MESSAGE value="add API tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="add API tests" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>38</line>
-          <option name="timeStamp" value="29" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/org/example/FieldTranslationTest.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="30" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Middleware.java</url>
           <line>13</line>
-          <option name="timeStamp" value="31" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/valueSerialization/TypeMetaConformityTests.java</url>
-          <line>14</line>
-          <option name="timeStamp" value="34" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>63</line>
-          <option name="timeStamp" value="35" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/org/example/Main.java</url>
-          <line>12</line>
-          <option name="timeStamp" value="36" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/valueSerialization/ValueSerdes.java</url>
-          <line>183</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/valueSerialization/ValueTest.java</url>
-          <line>39</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/evaluation/Main.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="45" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/objectEnricher/Main.java</url>
-          <line>30</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/objectEnricher/Main.java</url>
-          <line>14</line>
-          <option name="timeStamp" value="47" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/rangeCust/IndexSourceTest.java</url>
-          <line>152</line>
-          <option name="timeStamp" value="51" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/conditionalFormattingExcel/Main.java</url>
-          <line>42</line>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/pipelines/PipelinrCommandArchTest.java</url>
-          <line>43</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Controller.java</url>
-          <line>19</line>
-          <option name="timeStamp" value="66" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="68" />
-        </line-breakpoint>
-        <line-breakpoint type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="71" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Controller.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="72" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/pipelines/Infrastructure.java</url>
-          <line>52</line>
-          <option name="timeStamp" value="73" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/pipelines/BookingControllerTest.java</url>
-          <line>126</line>
-          <option name="timeStamp" value="74" />
+          <option name="timeStamp" value="76" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

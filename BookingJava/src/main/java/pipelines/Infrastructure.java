@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import io.javalin.http.BadRequestResponse;
 import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
@@ -68,17 +69,26 @@ class InMemoryBookingRepository implements BookingRepository {
     @Override
     public boolean patch(UUID bookingId, Map<String, Object> fields) {
         for (int i = 0; i < bookings.size(); i++) {
-            Booking b = bookings.get(i);
-            if (b.id().equals(bookingId)) {
-                String hotelName = fields.containsKey("hotelName") ? (String) fields.get("hotelName") : b.hotelName();
-                String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : b.guestName();
-                LocalDate checkIn = fields.containsKey("checkIn") ? LocalDate.parse((String) fields.get("checkIn")) : b.checkIn();
-                LocalDate checkOut = fields.containsKey("checkOut") ? LocalDate.parse((String) fields.get("checkOut")) : b.checkOut();
-                bookings.set(i, new Booking(b.id(), hotelName, guestName, checkIn, checkOut));
+            Booking old = bookings.get(i);
+            if (old.id().equals(bookingId)) {
+                String hotelName = fields.containsKey("hotelName") ? (String) fields.get("hotelName") : old.hotelName();
+                String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : old.guestName();
+                LocalDate checkIn = fields.containsKey("checkIn") ? getDateFromBody(fields, "checkIn") : old.checkIn();
+                LocalDate checkOut = fields.containsKey("checkOut") ? getDateFromBody(fields, "checkOut") : old.checkOut();
+                bookings.set(i, new Booking(old.id(), hotelName, guestName, checkIn, checkOut));
                 return true;
             }
         }
         return false;
+    }
+
+    private static LocalDate getDateFromBody(Map<String, Object> fields, String fieldName) {
+        try {
+            var dateStr = (String) fields.get(fieldName);
+            return LocalDate.parse(dateStr);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s".formatted(fieldName, e.getMessage()));
+        }
     }
 }
 

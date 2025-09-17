@@ -5,7 +5,12 @@ import io.javalin.Javalin;
 import io.javalin.testtools.JavalinTest;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Named;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -132,5 +137,136 @@ class BookingControllerTest {
         boolean deleted = pipelinr.send(new DeleteBookingCommand(id));
         assertThat(deleted).isTrue();
         assertThat(bookings).hasSize(3);
+    }
+
+    static Stream<Arguments> invalidRequests() {
+        return Stream.of(
+                // Missing fields
+                Arguments.of(Named.of("Missing hotelName",
+                                Map.of("guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                        "Missing required field: hotelName"),
+
+                Arguments.of(Named.of("Missing guestName",
+                                Map.of("hotelName", "TestHotel", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                        "Missing required field: guestName"),
+
+                Arguments.of(Named.of("Missing checkIn",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkOut", "2024-07-05")),
+                        "Missing required field: checkIn"),
+
+                Arguments.of(Named.of("Missing checkOut",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01")),
+                        "Missing required field: checkOut"),
+
+                // Invalid date formats
+                Arguments.of(Named.of("Invalid checkIn format",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "invalid", "checkOut", "2024-07-05")),
+                        "Expected ISO-8601 (yyyy-MM-dd) format for field checkIn"),
+
+                Arguments.of(Named.of("Invalid checkOut format",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-13-01")),
+                        "Expected ISO-8601 (yyyy-MM-dd) format for field checkOut"),
+
+                // Business rule
+                Arguments.of(Named.of("checkIn after checkOut",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-10", "checkOut", "2024-07-01")),
+                        "checkIn cannot be after checkOut")
+        );
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("invalidRequests")
+    @DisplayName("❌ Negative validation for creating bookings")
+    void testCreateBookingValidation(Map<String, Object> booking, String expectedError) {
+        JavalinTest.test(app, (server, client) -> {
+            try (var res = client.post("/bookings", booking)) {
+                assertThat(res.code()).isEqualTo(400);
+                var body = res.body().string();
+                assertThat(body).contains(expectedError);
+            }
+        });
+    }
+
+    static Stream<Arguments> deleteBookingCases() {
+        return Stream.of(
+                Arguments.of(Named.of("Invalid UUID format", "not-a-uuid"), 400, "Invalid format for UUID path parameter bookingId: Invalid UUID string: not-a-uuid"),
+
+                Arguments.of(Named.of("Non-existing booking", new UUID(Long.MAX_VALUE, Long.MAX_VALUE).toString()), 404, null)
+        );
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("deleteBookingCases")
+    @DisplayName("❌ Negative validation for deleting bookings")
+    void testDeleteBookingValidation(String bookingIdStr, int expectedStatus, String expectedMessage) {
+        JavalinTest.test(app, (server, client) -> {
+            try (var res = client.delete("/bookings/" + bookingIdStr)) {
+                assertThat(res.code()).isEqualTo(expectedStatus);
+                if (expectedMessage != null) {
+                    var body = res.body().string();
+                    assertThat(body).contains(expectedMessage);
+                }
+            }
+        });
+    }
+
+    static Stream<Arguments> invalidUpdateRequests() {
+        var validId = new UUID(0L, 1L).toString();
+        return Stream.of(
+                // Missing fields
+                Arguments.of(Named.of("Missing hotelName",
+                                Map.of("guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                        validId, "hotelName", 400),
+
+                Arguments.of(Named.of("Missing guestName",
+                                Map.of("hotelName", "TestHotel", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                        validId, "guestName", 400),
+
+                Arguments.of(Named.of("Missing checkIn",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkOut", "2024-07-05")),
+                        validId, "checkIn", 400),
+
+                Arguments.of(Named.of("Missing checkOut",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01")),
+                        validId, "checkOut", 400),
+
+                // Invalid date formats
+                Arguments.of(Named.of("Invalid checkIn format",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "invalid", "checkOut", "2024-07-05")),
+                        validId, "checkIn", 400),
+
+                Arguments.of(Named.of("Invalid checkOut format",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-13-01")),
+                        validId, "checkOut", 400),
+
+                // checkIn after checkOut
+                Arguments.of(Named.of("checkIn after checkOut",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-10", "checkOut", "2024-07-01")),
+                        validId, "checkIn cannot be after checkOut", 400),
+
+                // Invalid UUID path parameter
+                Arguments.of(Named.of("Invalid bookingId UUID",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                        "invalid-id", "Invalid UUID", 400),
+
+                // not existing ID
+                Arguments.of(Named.of("Not existing booking UUID",
+                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                        new UUID(Long.MAX_VALUE, Long.MAX_VALUE).toString(), "Booking ID not found", 404)
+        );
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("invalidUpdateRequests")
+    void testUpdateBookingValidation(Map<String, Object> requestBody, String bookingId, String expectedError, int expectedStatus) {
+        JavalinTest.test(app, (server, client) -> {
+            try (var res = client.put("/bookings/" + bookingId, requestBody)) {
+                assertThat(res.code()).isEqualTo(expectedStatus);
+                if (expectedError != null) {
+                    var body = res.body().string();
+                    assertThat(body).contains(expectedError);
+                }
+            }
+        });
     }
 }

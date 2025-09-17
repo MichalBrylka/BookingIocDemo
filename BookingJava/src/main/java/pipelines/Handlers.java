@@ -39,10 +39,10 @@ record UpdateBookingHandler(BookingRepository repository) implements Command.Han
     public Boolean handle(UpdateBookingCommand command) {
         Booking booking = new Booking(
                 command.bookingId(),
-                command.newHotelName(),
-                command.newGuestName(),
-                command.newCheckIn(),
-                command.newCheckOut()
+                command.hotelName(),
+                command.guestName(),
+                command.checkIn(),
+                command.checkOut()
         );
         return repository.update(booking);
     }
