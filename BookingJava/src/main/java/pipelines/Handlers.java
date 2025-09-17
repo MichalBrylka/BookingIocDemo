@@ -25,6 +25,14 @@ record GetBookingsHandler(BookingRepository repository) implements Command.Handl
 }
 
 @Component
+record GetBookingsByIdHandler(BookingRepository repository) implements Command.Handler<GetBookingsByIdQuery, Booking> {
+    @Override
+    public Booking handle(GetBookingsByIdQuery query) {
+        return repository.getById(query.bookingId());
+    }
+}
+
+@Component
 record DeleteBookingsHandler(BookingRepository repository) implements Command.Handler<DeleteBookingCommand, Boolean> {
 
     @Override

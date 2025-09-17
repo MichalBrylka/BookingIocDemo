@@ -25,6 +25,8 @@ interface BookingRepository {
 
     List<Booking> getAll();
 
+    Booking getById(UUID bookingId);
+
     boolean delete(UUID bookingId);
 
     boolean update(Booking booking);
@@ -45,10 +47,16 @@ class InMemoryBookingRepository implements BookingRepository {
     }
 
     public void add(Booking booking) {
+        booking.validate();
         bookings.add(booking);
     }
 
     public List<Booking> getAll() {return Collections.unmodifiableList(bookings);}
+
+    @Override
+    public Booking getById(UUID bookingId) {
+        return bookings.stream().filter(b -> b.id().equals(bookingId)).findFirst().orElse(null);
+    }
 
     @Override
     public boolean delete(UUID bookingId) {
@@ -57,6 +65,8 @@ class InMemoryBookingRepository implements BookingRepository {
 
     @Override
     public boolean update(Booking booking) {
+        booking.validate();
+
         for (int i = 0; i < bookings.size(); i++) {
             if (bookings.get(i).id().equals(booking.id())) {
                 bookings.set(i, booking);
@@ -75,7 +85,8 @@ class InMemoryBookingRepository implements BookingRepository {
                 String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : old.guestName();
                 LocalDate checkIn = fields.containsKey("checkIn") ? getDateFromBody(fields, "checkIn") : old.checkIn();
                 LocalDate checkOut = fields.containsKey("checkOut") ? getDateFromBody(fields, "checkOut") : old.checkOut();
-                bookings.set(i, new Booking(old.id(), hotelName, guestName, checkIn, checkOut));
+
+                bookings.set(i, new Booking(old.id(), hotelName, guestName, checkIn, checkOut).validate());
                 return true;
             }
         }
@@ -90,6 +101,8 @@ class InMemoryBookingRepository implements BookingRepository {
             throw new IllegalArgumentException("Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s".formatted(fieldName, e.getMessage()));
         }
     }
+
+
 }
 
 @Component

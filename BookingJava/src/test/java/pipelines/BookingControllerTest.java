@@ -34,7 +34,14 @@ class BookingControllerTest {
 
         var repository = new InMemoryBookingRepository(bookings);
 
-        pipelinr = new Pipelinr().with(() -> Stream.of(new BookHotelHandler(repository), new GetBookingsHandler(repository), new DeleteBookingsHandler(repository), new UpdateBookingHandler(repository), new PatchBookingHandler(repository)));
+        pipelinr = new Pipelinr().with(() -> Stream.of(
+                new BookHotelHandler(repository),
+                new GetBookingsHandler(repository),
+                new DeleteBookingsHandler(repository),
+                new UpdateBookingHandler(repository),
+                new PatchBookingHandler(repository),
+                new GetBookingsByIdHandler(repository)
+        ));
         var controller = new BookingController(pipelinr);
         app = Javalin.create(config -> config.showJavalinBanner = false);
         controller.registerRoutes(app);
@@ -45,7 +52,7 @@ class BookingControllerTest {
         JavalinTest.test(app, (server, client) -> {
             var booking = Map.of("hotelName", "TestHotel", "guestName", "John Doe", "checkIn", "2024-07-01", "checkOut", "2024-07-05");
             try (var postRes = client.post("/bookings", booking)) {
-                assertThat(postRes.code()).isEqualTo(200);
+                assertThat(postRes.code()).isEqualTo(201);
                 assertThat(postRes.body()).isNotNull();
                 assertThatJson(postRes.body().string()).node("bookingId").isEqualTo(bookings.getLast().id().toString());
             }
@@ -61,6 +68,18 @@ class BookingControllerTest {
                 assertThatJson(response.body().string())
                         .isArray()
                         .first().node("guestName").isEqualTo("Alice Smith");
+            }
+        });
+    }
+
+    @Test
+    void testGetByIdBooking() {
+        JavalinTest.test(app, (server, client) -> {
+            try (var response = client.get("/bookings/" + bookings.getFirst().id())) {
+                assertThat(response.code()).isEqualTo(200);
+                assertThat(response.body()).isNotNull();
+                assertThatJson(response.body().string())
+                        .node("guestName").isEqualTo(bookings.getFirst().guestName());
             }
         });
     }
@@ -144,11 +163,11 @@ class BookingControllerTest {
                 // Missing fields
                 Arguments.of(Named.of("Missing hotelName",
                                 Map.of("guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
-                        "Missing required field: hotelName"),
+                        "Missing or empty required field: hotelName"),
 
                 Arguments.of(Named.of("Missing guestName",
                                 Map.of("hotelName", "TestHotel", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
-                        "Missing required field: guestName"),
+                        "Missing or empty required field: guestName"),
 
                 Arguments.of(Named.of("Missing checkIn",
                                 Map.of("hotelName", "TestHotel", "guestName", "John", "checkOut", "2024-07-05")),
@@ -181,8 +200,9 @@ class BookingControllerTest {
         JavalinTest.test(app, (server, client) -> {
             try (var res = client.post("/bookings", booking)) {
                 assertThat(res.code()).isEqualTo(400);
-                var body = res.body().string();
-                assertThat(body).contains(expectedError);
+
+                assertThat(res.body()).isNotNull();
+                assertThat(res.body().string()).contains(expectedError);
             }
         });
     }
@@ -203,8 +223,8 @@ class BookingControllerTest {
             try (var res = client.delete("/bookings/" + bookingIdStr)) {
                 assertThat(res.code()).isEqualTo(expectedStatus);
                 if (expectedMessage != null) {
-                    var body = res.body().string();
-                    assertThat(body).contains(expectedMessage);
+                    assertThat(res.body()).isNotNull();
+                    assertThat(res.body().string()).contains(expectedMessage);
                 }
             }
         });
@@ -263,8 +283,8 @@ class BookingControllerTest {
             try (var res = client.put("/bookings/" + bookingId, requestBody)) {
                 assertThat(res.code()).isEqualTo(expectedStatus);
                 if (expectedError != null) {
-                    var body = res.body().string();
-                    assertThat(body).contains(expectedError);
+                    assertThat(res.body()).isNotNull();
+                    assertThat(res.body().string()).contains(expectedError);
                 }
             }
         });

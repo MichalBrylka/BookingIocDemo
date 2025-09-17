@@ -13,6 +13,7 @@ interface HasBookingDates {
 
 record BookHotelCommand(String hotelName, String guestName, LocalDate checkIn, LocalDate checkOut) implements Command<UUID>, HasBookingDates {}
 
+record GetBookingsByIdQuery(UUID bookingId) implements Command<Booking> {}
 
 record GetBookingsQuery(Optional<String> hotelName, Optional<String> guestName) implements Command<List<Booking>> {
     public GetBookingsQuery() {
