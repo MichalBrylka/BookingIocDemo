@@ -5,6 +5,7 @@ import io.javalin.Javalin;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
+import io.javalin.websocket.WsContext;
 import org.springframework.stereotype.Component;
 import pipelines.BookingFilter.*;
 
@@ -14,11 +15,27 @@ import java.util.regex.Pattern;
 import java.util.*;
 
 @Component
-record BookingController(Pipeline pipeline) {
+class BookingController {
+    private final Pipeline pipeline;
+    private final BookingWebSocketHub webSocketHub = new BookingWebSocketHub();
+
+    BookingController(Pipeline pipeline) {this.pipeline = pipeline;}
+
     public void registerRoutes(Javalin app) {
         app.exception(IllegalArgumentException.class, (e, ctx) ->
                 ctx.status(HttpStatus.BAD_REQUEST).json(Map.of("error", e.getMessage()))
         );
+
+        app.ws("/ws/bookings", ws -> {
+            ws.onConnect(ctx -> {
+                webSocketHub.register(ctx);
+                System.out.println("Client connected: " + ctx.sessionId());
+            });
+            ws.onClose(ctx -> {
+                webSocketHub.unregister(ctx);
+                System.out.println("Client disconnected: " + ctx.sessionId());
+            });
+        });
 
         // POST /bookings
         app.post("/bookings", ctx -> {
@@ -31,6 +48,14 @@ record BookingController(Pipeline pipeline) {
 
 
             var bookingId = pipeline.send(new BookHotelCommand(hotel, guest, email, checkIn, checkOut));
+
+            webSocketHub.broadcast(Map.of(
+                    "event", "BookingCreated",
+                    "bookingId", bookingId.toString(),
+                    "guestName", guest,
+                    "hotelName", hotel
+            ));
+
             ctx.status(HttpStatus.CREATED)
                     .header("Location", "/bookings/" + bookingId)
                     .json(Map.of("bookingId", bookingId.toString()));
@@ -41,6 +66,11 @@ record BookingController(Pipeline pipeline) {
             UUID bookingId = getUuidFromPath(ctx, "bookingId");
 
             boolean deleted = pipeline.send(new DeleteBookingCommand(bookingId));
+            if (deleted)
+                webSocketHub.broadcast(Map.of(
+                        "event", "BookingDeleted",
+                        "bookingId", bookingId.toString()
+                ));
             ctx.status(deleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
         });
 
@@ -75,6 +105,12 @@ record BookingController(Pipeline pipeline) {
             var bookingId = getUuidFromPath(ctx, "bookingId");
             boolean updated = pipeline.send(new UpdateBookingCommand(bookingId, hotel, guest, email, checkIn, checkOut));
 
+            if (updated)
+                webSocketHub.broadcast(Map.of(
+                        "event", "BookingUpdated",
+                        "bookingId", bookingId.toString()
+                ));
+
             if (updated) ctx.status(HttpStatus.NO_CONTENT);
             else ctx.status(HttpStatus.NOT_FOUND).result("Booking ID not found: " + bookingId);
         });
@@ -85,6 +121,13 @@ record BookingController(Pipeline pipeline) {
             var body = ctx.bodyAsClass(Map.class);
 
             boolean patched = pipeline.send(new PatchBookingCommand(bookingId, body));
+
+            if (patched)
+                webSocketHub.broadcast(Map.of(
+                        "event", "BookingPatched",
+                        "bookingId", bookingId.toString()
+                ));
+
             if (patched) ctx.status(HttpStatus.NO_CONTENT);
             else ctx.status(HttpStatus.NOT_FOUND).result("Booking ID not found: " + bookingId);
         });
@@ -111,6 +154,26 @@ record BookingController(Pipeline pipeline) {
             return LocalDate.parse((String) value);
         } catch (Exception e) {
             throw new BadRequestResponse("Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s".formatted(fieldName, e.getMessage()));
+        }
+    }
+}
+
+class BookingWebSocketHub {
+    private final Set<WsContext> sessions = new java.util.concurrent.CopyOnWriteArraySet<>();
+
+    public void register(WsContext ctx) {
+        sessions.add(ctx);
+    }
+
+    public void unregister(WsContext ctx) {
+        sessions.remove(ctx);
+    }
+
+    public void broadcast(Object message) {
+        for (WsContext session : sessions) {
+            if (session.session.isOpen()) {
+                session.send(message);
+            }
         }
     }
 }
