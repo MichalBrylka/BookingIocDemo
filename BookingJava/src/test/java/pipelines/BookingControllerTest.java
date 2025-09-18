@@ -249,46 +249,44 @@ class BookingControllerTest {
 
         return Stream.of(
                 // Missing fields
-                Arguments.of(Named.of("Missing hotelName", modify(validUpdateRequest, m -> m.remove("hotelName"))),
-                        validId, "hotelName", 400),
+                Arguments.of(modify(validUpdateRequest, m -> m.remove("hotelName")),
+                        validId, "Missing or empty required field: hotelName", 400),
 
-                Arguments.of(Named.of("Missing guestName", modify(validUpdateRequest, m -> m.remove("guestName"))),
-                        validId, "guestName", 400),
+                Arguments.of(modify(validUpdateRequest, m -> m.remove("guestName")),
+                        validId, "Missing or empty required field: guestName", 400),
 
-                Arguments.of(Named.of("Missing email", modify(validUpdateRequest, m -> m.remove("email"))),
-                        validId, "email", 400),
+                Arguments.of(modify(validUpdateRequest, m -> m.remove("email")),
+                        validId, "Missing or empty required field: email", 400),
 
-                Arguments.of(Named.of("Missing checkIn", modify(validUpdateRequest, m -> m.remove("checkIn"))),
-                        validId, "checkIn", 400),
+                Arguments.of(modify(validUpdateRequest, m -> m.remove("checkIn")),
+                        validId, "Missing required field: checkIn", 400),
 
-                Arguments.of(Named.of("Missing checkOut", modify(validUpdateRequest, m -> m.remove("checkOut"))),
-                        validId, "checkOut", 400),
+                Arguments.of(modify(validUpdateRequest, m -> m.remove("checkOut")),
+                        validId, "Missing required field: checkOut", 400),
 
                 // Invalid date formats
-                Arguments.of(Named.of("Invalid checkIn format", modify(validUpdateRequest, m -> m.put("checkIn", "invalid"))),
-                        validId, "checkIn", 400),
+                Arguments.of(modify(validUpdateRequest, m -> m.put("checkIn", "invalid")),
+                        validId, "Expected ISO-8601 (yyyy-MM-dd) format for field checkIn", 400),
 
-                Arguments.of(Named.of("Invalid checkOut format", modify(validUpdateRequest, m -> m.put("checkOut", "2024-13-01"))),
-                        validId, "checkOut", 400),
+                Arguments.of(modify(validUpdateRequest, m -> m.put("checkOut", "2024-13-01")),
+                        validId, "Expected ISO-8601 (yyyy-MM-dd) format for field checkOut", 400),
 
                 // Business rule
-                Arguments.of(Named.of("checkIn after checkOut", modify(validUpdateRequest, m -> {
+                Arguments.of(modify(validUpdateRequest, m -> {
                             m.put("checkIn", "2024-07-10");
                             m.put("checkOut", "2024-07-01");
-                        })),
+                        }),
                         validId, "checkIn cannot be after checkOut", 400),
 
                 // Invalid UUID path parameter
-                Arguments.of(Named.of("Invalid bookingId UUID", validUpdateRequest),
-                        "invalid-id", "Invalid UUID", 400),
+                Arguments.of(validUpdateRequest, "invalid-id", "Invalid UUID", 400),
 
                 // Not existing ID
-                Arguments.of(Named.of("Not existing booking UUID", validUpdateRequest),
-                        notExistingId.toString(), "Booking ID not found", 404)
+                Arguments.of(validUpdateRequest, notExistingId.toString(), "Booking ID not found", 404)
         );
     }
 
-    @ParameterizedTest(name = "{0}")
+    @ParameterizedTest(name = "{3}: {2}")
     @MethodSource("invalidUpdateRequests")
     void testUpdateBookingValidation(Map<String, Object> requestBody, String bookingId, String expectedError, int expectedStatus) {
         JavalinTest.test(app, (server, client) -> {
