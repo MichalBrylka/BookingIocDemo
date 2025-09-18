@@ -72,8 +72,10 @@ public class PipelineIntegrationTests {
                         , null),
                 Arguments.of(Named.of("Get non-existing booking by id", new GetBookingsByIdQuery(nonExistingId)), null, null),
 
-                Arguments.of(Named.of("Get all bookings", new GetBookingsQuery(Optional.empty(), Optional.empty())), 3, null),
-                Arguments.of(Named.of("Get bookings filtered by hotel name", new GetBookingsQuery(Optional.of("Hotel California"), Optional.empty())), 1, null),
+                Arguments.of(Named.of("Get all bookings", new GetBookingsQuery(null, null)), 3, null),
+                Arguments.of(Named.of("Get bookings filtered by hotel name",
+                        new GetBookingsQuery(new BookingFilter(new BookingFilter.StringFilter("Hotel California", BookingFilter.Operator.EQ), null, null, null, null), null)
+                ), 1, null),
 
                 Arguments.of(Named.of("Update booking", new UpdateBookingCommand(existingId, "UpdatedHotel", "Eve", "new@email.pl", today, today.plusDays(3))), true, null),
 

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 record BookHotelHandler(BookingRepository repository, NotificationPublisher publisher) implements Command.Handler<BookHotelCommand, UUID> {
     @Override
     public UUID handle(BookHotelCommand command) {
-        var booking = new Booking(repository.getNextId(), command.hotelName(), command.guestName(),command.email(), command.checkIn(), command.checkOut());
+        var booking = new Booking(repository.getNextId(), command.hotelName(), command.guestName(), command.email(), command.checkIn(), command.checkOut());
         repository.add(booking);
         publisher.publish(new BookingConfirmedNotification(booking));
         return booking.id();
@@ -22,7 +22,7 @@ record BookHotelHandler(BookingRepository repository, NotificationPublisher publ
 record GetBookingsHandler(BookingRepository repository) implements Command.Handler<GetBookingsQuery, List<Booking>> {
     @Override
     public List<Booking> handle(GetBookingsQuery query) {
-        return repository.getAll().stream().filter(b -> query.hotelName().map(name -> b.hotelName().equalsIgnoreCase(name)).orElse(true)).filter(b -> query.guestName().map(guest -> b.guestName().equalsIgnoreCase(guest)).orElse(true)).collect(Collectors.toList());
+        return repository.get(query.filter(), query.sort());
     }
 }
 

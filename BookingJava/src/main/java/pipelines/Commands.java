@@ -16,10 +16,8 @@ record BookHotelCommand(String hotelName, String guestName, String email, LocalD
 
 record GetBookingsByIdQuery(UUID bookingId) implements Command<Booking> {}
 
-record GetBookingsQuery(Optional<String> hotelName, Optional<String> guestName) implements Command<List<Booking>> {
-    public GetBookingsQuery() {
-        this(Optional.empty(), Optional.empty());
-    }
+record GetBookingsQuery(BookingFilter filter, Iterable<SortField> sort) implements Command<List<Booking>> {
+    public GetBookingsQuery() {this(null, null);}
 }
 
 record DeleteBookingCommand(UUID bookingId) implements Command<Boolean> {}

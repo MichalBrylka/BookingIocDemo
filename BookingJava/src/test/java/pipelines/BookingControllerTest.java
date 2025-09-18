@@ -72,12 +72,12 @@ class BookingControllerTest {
     @Test
     void testGetBooking() {
         JavalinTest.test(app, (server, client) -> {
-            try (var response = client.get("/bookings?hotelName=Hotel California")) {
+            try (var response = client.get("/bookings?filter=hotelName has 'Budapest' and guestName has 'Bob'&sort=guestName DESC")) {
                 assertThat(response.code()).isEqualTo(200);
                 assertThat(response.body()).isNotNull();
                 assertThatJson(response.body().string())
                         .isArray()
-                        .first().node("guestName").isEqualTo("Alice Smith");
+                        .first().node("guestName").isEqualTo("Bob Johnson");
             }
         });
     }

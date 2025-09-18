@@ -10,105 +10,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 
-import java.time.LocalDate;
 import java.util.*;
 
-interface BookingRepository {
-    UUID getNextId();
-
-    void add(Booking booking);
-
-    List<Booking> getAll();
-
-    Booking getById(UUID bookingId);
-
-    boolean delete(UUID bookingId);
-
-    boolean update(Booking booking);
-
-    boolean patch(UUID bookingId, Map<String, Object> fields);
-}
-
-@Repository
-class InMemoryBookingRepository implements BookingRepository {
-    private final Map<UUID, Booking> bookings;
-
-    public InMemoryBookingRepository() {
-        this(null);
-    }
-
-    public InMemoryBookingRepository(Map<UUID, Booking> bookings) {
-        this.bookings = bookings == null ? new HashMap<>() : bookings;
-    }
-
-    @Override
-    public UUID getNextId() {
-        return UUID.randomUUID();
-    }
-
-    public void add(Booking booking) {
-        booking.validate();
-        bookings.put(booking.id(), booking);
-    }
-
-    public List<Booking> getAll() {
-        return List.copyOf(bookings.values());
-    }
-
-    @Override
-    public Booking getById(UUID bookingId) {
-        return bookings.get(bookingId);
-    }
-
-    @Override
-    public boolean delete(UUID bookingId) {
-        return bookings.remove(bookingId) != null;
-    }
-
-    @Override
-    public boolean update(Booking booking) {
-        booking.validate();
-        if (bookings.containsKey(booking.id())) {
-            bookings.put(booking.id(), booking);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public boolean patch(UUID bookingId, Map<String, Object> fields) {
-        Booking old = bookings.get(bookingId);
-        if (old == null) return false;
-
-        String hotelName = fields.containsKey("hotelName") ? (String) fields.get("hotelName") : old.hotelName();
-        String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : old.guestName();
-        String email = fields.containsKey("email") ? (String) fields.get("email") : old.email();
-
-        LocalDate checkIn = fields.containsKey("checkIn") ? getDateFromBody(fields, "checkIn") : old.checkIn();
-        LocalDate checkOut = fields.containsKey("checkOut") ? getDateFromBody(fields, "checkOut") : old.checkOut();
-
-        bookings.put(bookingId, new Booking(bookingId, hotelName, guestName, email, checkIn, checkOut).validate());
-        return true;
-    }
-
-    private static LocalDate getDateFromBody(Map<String, Object> fields, String fieldName) {
-        try {
-            var dateStr = (String) fields.get(fieldName);
-            return LocalDate.parse(dateStr);
-        } catch (Exception e) {
-            throw new IllegalArgumentException(
-                    "Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s"
-                            .formatted(fieldName, e.getMessage())
-            );
-        }
-    }
-}
 
 interface EmailService {
     void sendEmail(String to, String subject, String body);

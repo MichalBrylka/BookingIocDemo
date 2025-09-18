@@ -6,8 +6,11 @@ import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import pipelines.BookingFilter.*;
 
 import java.time.LocalDate;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.*;
 
 @Component
@@ -50,12 +53,12 @@ record BookingController(Pipeline pipeline) {
             else ctx.status(HttpStatus.NOT_FOUND);
         });
 
-        // GET /bookings?hotelName=...&guestName=...
+        // GET /bookings?filter=guestName eq 'John' and hotelName eq 'Hilton'
         app.get("/bookings", ctx -> {
-            var hotelName = Optional.ofNullable(ctx.queryParam("hotelName"));
-            var guestName = Optional.ofNullable(ctx.queryParam("guestName"));
+            var filter = BookingExpressionParser.parseFilter(ctx.queryParam("filter"));
+            var sort = BookingExpressionParser.parseSort(ctx.queryParam("sort"));
 
-            var bookings = pipeline.send(new GetBookingsQuery(hotelName, guestName));
+            var bookings = pipeline.send(new GetBookingsQuery(filter, sort));
             ctx.json(bookings).status(HttpStatus.OK);
         });
 
@@ -109,5 +112,80 @@ record BookingController(Pipeline pipeline) {
         } catch (Exception e) {
             throw new BadRequestResponse("Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s".formatted(fieldName, e.getMessage()));
         }
+    }
+}
+
+class BookingExpressionParser {
+
+    public static Iterable<SortField> parseSort(String sortParam) {
+        if (sortParam == null || sortParam.isBlank()) return null;
+
+        List<SortField> sortFields = new ArrayList<>();
+        for (String part : sortParam.split(",")) {
+            String[] tokens = part.trim().split("\\s+");
+            String field = tokens[0];
+            boolean descending = tokens.length == 2 && tokens[1].equalsIgnoreCase("DESC");
+            sortFields.add(new SortField(field, !descending));
+        }
+        return sortFields;
+    }
+
+    // regex: field operator 'value', value can have '' escaped quote
+    private static final Pattern CONDITION_PATTERN = Pattern.compile(
+            "(\\w+)\\s+(eq|neq|has|gt|lt|gte|lte)\\s+'((?:[^']|'')*)'",
+            Pattern.CASE_INSENSITIVE
+    );
+
+    public static BookingFilter parseFilter(String filterParam) {
+        if (filterParam == null || filterParam.isBlank()) return null;
+
+        StringFilter hotelName = null;
+        StringFilter guestName = null;
+        StringFilter email = null;
+        DateFilter checkIn = null;
+        DateFilter checkOut = null;
+
+        // Split by AND (case-insensitive)
+        String[] conditions = filterParam.split("(?i)\\s+AND\\s+");
+        for (String condition : conditions) {
+            Matcher matcher = CONDITION_PATTERN.matcher(condition.trim());
+            if (!matcher.matches()) continue; // skip invalid
+
+            String field = matcher.group(1);
+            String op = matcher.group(2);
+            String valueRaw = matcher.group(3).replace("''", "'"); // unescape ''
+
+            switch (field) {
+                case "hotelName" -> hotelName = new StringFilter(valueRaw, parseStringOperator(op));
+                case "guestName" -> guestName = new StringFilter(valueRaw, parseStringOperator(op));
+                case "email" -> email = new StringFilter(valueRaw, parseStringOperator(op));
+                case "checkIn" -> checkIn = new DateFilter(LocalDate.parse(valueRaw), parseDateOperator(op));
+                case "checkOut" -> checkOut = new DateFilter(LocalDate.parse(valueRaw), parseDateOperator(op));
+                default -> throw new IllegalArgumentException("Unknown field: " + field);
+            }
+        }
+
+        return new BookingFilter(hotelName, guestName, email, checkIn, checkOut);
+    }
+
+    private static BookingFilter.Operator parseStringOperator(String op) {
+        return switch (op.toLowerCase()) {
+            case "eq" -> BookingFilter.Operator.EQ;
+            case "neq" -> BookingFilter.Operator.NEQ;
+            case "has" -> BookingFilter.Operator.IN;
+            default -> throw new IllegalArgumentException("Unknown string operator: " + op);
+        };
+    }
+
+    private static BookingFilter.Operator parseDateOperator(String op) {
+        return switch (op.toLowerCase()) {
+            case "eq" -> BookingFilter.Operator.EQ;
+            case "neq" -> BookingFilter.Operator.NEQ;
+            case "gt" -> BookingFilter.Operator.GT;
+            case "lt" -> BookingFilter.Operator.LT;
+            case "gte" -> BookingFilter.Operator.GTE;
+            case "lte" -> BookingFilter.Operator.LTE;
+            default -> throw new IllegalArgumentException("Unknown date operator: " + op);
+        };
     }
 }
