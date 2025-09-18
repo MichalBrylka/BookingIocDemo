@@ -1,5 +1,7 @@
 package pipelines;
 
+import io.javalin.openapi.OpenApiIgnore;
+
 import java.time.LocalDate;
 import java.util.UUID;
 import java.util.function.Function;
@@ -25,6 +27,7 @@ record Booking(
         };
     }
 
+    @OpenApiIgnore
     public Booking validate() {
         if (hotelName == null || hotelName.isBlank())
             throw new IllegalArgumentException("hotelName is required");

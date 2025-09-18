@@ -5,7 +5,7 @@ import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
-import io.javalin.websocket.WsContext;
+import io.javalin.openapi.*;
 import org.springframework.stereotype.Component;
 import pipelines.BookingFilter.*;
 
@@ -21,16 +21,19 @@ class BookingController implements EndpointGroup {
     private final Pipeline pipeline;
     private final BookingWebSocketHub webSocketHub = new BookingWebSocketHub();
 
+    private static final String RESOURCE_NAME = "Bookings";
+    private static final String BASE_PATH = "/bookings";
+    private static final String ID_PATH = BASE_PATH + "/{id}";
+
     BookingController(Pipeline pipeline) {this.pipeline = pipeline;}
 
     @Override
     public void addEndpoints() {
-        //TODO use CRUD
-        path("bookings", () -> {
+        path(RESOURCE_NAME.toLowerCase(), () -> {
             post(this::createBooking);
             get(this::listBookings);
 
-            path("{bookingId}", () -> {
+            path("{id}", () -> {
                 get(this::getBooking);
                 put(this::updateBooking);
                 patch(this::patchBooking);
@@ -83,7 +86,26 @@ class BookingController implements EndpointGroup {
                 );
     }
 
-    // GET /bookings?filter=guestName eq 'John' and hotelName eq 'Hilton'
+    // GET /bookings?filter=
+    @OpenApi(summary = "Get all bookings. Supported fields: hotelName, guestName, email, checkIn, checkOut.",
+            operationId = "getAllBookings",
+            responses = {@OpenApiResponse(status = "200", content = {@OpenApiContent(from = Booking[].class)})},
+            tags = {RESOURCE_NAME},
+            path = BASE_PATH,
+            methods = {HttpMethod.GET},
+            queryParams = {
+                    @OpenApiParam(
+                            name = "filter",
+                            description = "Filter bookings by criteria. Supported operators: eq, neq, has (for strings), dates operators (gt, lt, gte, lte). Combine conditions with AND",
+                            example = "guestName eq 'John' and hotelName eq 'Hilton'"
+                    ),
+                    @OpenApiParam(
+                            name = "sort",
+                            description = "Sort bookings by field name and direction (ASC-default or DESC). Multiple fields can be separated by commas.",
+                            example = "checkIn DESC, hotelName ASC, guestName"
+                    )
+            }
+    )
     private void listBookings(Context ctx) {
         var filter = BookingExpressionParser.parseFilter(ctx.queryParam("filter"));
         var sort = BookingExpressionParser.parseSort(ctx.queryParam("sort"));
@@ -93,7 +115,7 @@ class BookingController implements EndpointGroup {
     }
 
     private void getBooking(Context ctx) {
-        UUID bookingId = getUuidFromPath(ctx, "bookingId");
+        UUID bookingId = getUuidFromPath(ctx);
         var bookings = pipeline.send(new GetBookingsByIdQuery(bookingId));
         if (bookings != null)
             ctx.json(bookings).status(HttpStatus.OK);
@@ -109,7 +131,7 @@ class BookingController implements EndpointGroup {
         var checkOut = getRequiredDate(body, "checkOut");
 
 
-        var bookingId = getUuidFromPath(ctx, "bookingId");
+        var bookingId = getUuidFromPath(ctx);
         boolean updated = pipeline.send(new UpdateBookingCommand(bookingId, hotel, guest, email, checkIn, checkOut));
 
         if (updated)
@@ -123,7 +145,7 @@ class BookingController implements EndpointGroup {
     }
 
     private void patchBooking(Context ctx) {
-        var bookingId = getUuidFromPath(ctx, "bookingId");
+        var bookingId = getUuidFromPath(ctx);
         var body = ctx.bodyAsClass(Map.class);
 
         boolean patched = pipeline.send(new PatchBookingCommand(bookingId, body));
@@ -139,7 +161,7 @@ class BookingController implements EndpointGroup {
     }
 
     private void deleteBooking(Context ctx) {
-        UUID bookingId = getUuidFromPath(ctx, "bookingId");
+        UUID bookingId = getUuidFromPath(ctx);
 
         boolean deleted = pipeline.send(new DeleteBookingCommand(bookingId));
         if (deleted)
@@ -150,11 +172,11 @@ class BookingController implements EndpointGroup {
         ctx.status(deleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
-    private static UUID getUuidFromPath(Context ctx, String fieldName) {
+    private static UUID getUuidFromPath(Context ctx) {
         try {
-            return UUID.fromString(ctx.pathParam(fieldName));
+            return UUID.fromString(ctx.pathParam("id"));
         } catch (IllegalArgumentException e) {
-            throw new BadRequestResponse("Invalid format for UUID path parameter %s: %s".formatted(fieldName, e.getMessage()));
+            throw new BadRequestResponse("Invalid format for UUID path parameter %s: %s".formatted("id", e.getMessage()));
         }
     }
 
@@ -188,7 +210,7 @@ class BookingExpressionParser {
         List<SortField> sortFields = new ArrayList<>();
         for (String part : sortParam.split(",")) {
             String[] tokens = part.trim().split("\\s+");
-            String field = tokens[0];
+            String field = tokens[0].trim();
             boolean descending = tokens.length == 2 && tokens[1].equalsIgnoreCase("DESC");
             sortFields.add(new SortField(field, !descending));
         }
