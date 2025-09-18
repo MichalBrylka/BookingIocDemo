@@ -49,16 +49,27 @@ class BookingController {
 
             var bookingId = pipeline.send(new BookHotelCommand(hotel, guest, email, checkIn, checkOut));
 
-            webSocketHub.broadcast(Map.of(
-                    "event", "BookingCreated",
-                    "bookingId", bookingId.toString(),
-                    "guestName", guest,
-                    "hotelName", hotel
-            ));
+            webSocketHub.broadcast(Map.of("event", "BookingCreated", "bookingId", bookingId.toString(), "guestName", guest, "hotelName", hotel));
+
+
+            String baseUrl = ctx.url();
+            String bookingUrl = baseUrl + "/" + bookingId;
+
 
             ctx.status(HttpStatus.CREATED)
-                    .header("Location", "/bookings/" + bookingId)
-                    .json(Map.of("bookingId", bookingId.toString()));
+                    .header("Location", bookingUrl)
+                    .json(
+                            new BookingCreatedResponse(
+                                    bookingId.toString(),
+                                    new BookingCreatedResponse.Links(
+                                            new Link(bookingUrl, "GET"),
+                                            new Link(bookingUrl, "PUT"),
+                                            new Link(bookingUrl, "PATCH"),
+                                            new Link(bookingUrl, "DELETE"),
+                                            new Link(baseUrl, "GET")
+                                    )
+                            )
+                    );
         });
 
         // DELETE /bookings/{bookingId}
@@ -156,6 +167,12 @@ class BookingController {
             throw new BadRequestResponse("Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s".formatted(fieldName, e.getMessage()));
         }
     }
+}
+
+record Link(String href, String method) {}
+
+record BookingCreatedResponse(String bookingId, Links _links) {
+    record Links(Link self, Link update, Link patch, Link delete, Link list) {}
 }
 
 class BookingWebSocketHub {
