@@ -13,20 +13,21 @@ import java.util.*;
 @Component
 record BookingController(Pipeline pipeline) {
     public void registerRoutes(Javalin app) {
-        app.exception(IllegalArgumentException.class, (e, ctx) -> {
-            ctx.status(HttpStatus.BAD_REQUEST).json(Map.of("error", e.getMessage()));
-        });
+        app.exception(IllegalArgumentException.class, (e, ctx) ->
+                ctx.status(HttpStatus.BAD_REQUEST).json(Map.of("error", e.getMessage()))
+        );
 
         // POST /bookings
         app.post("/bookings", ctx -> {
             var body = ctx.bodyAsClass(Map.class);
             var hotel = requireNonEmptyString(body, "hotelName");
             var guest = requireNonEmptyString(body, "guestName");
+            var email = requireNonEmptyString(body, "email");
             var checkIn = getRequiredDate(body, "checkIn");
             var checkOut = getRequiredDate(body, "checkOut");
 
 
-            var bookingId = pipeline.send(new BookHotelCommand(hotel, guest, checkIn, checkOut));
+            var bookingId = pipeline.send(new BookHotelCommand(hotel, guest, email, checkIn, checkOut));
             ctx.status(HttpStatus.CREATED)
                     .header("Location", "/bookings/" + bookingId)
                     .json(Map.of("bookingId", bookingId.toString()));
@@ -63,12 +64,13 @@ record BookingController(Pipeline pipeline) {
             var body = ctx.bodyAsClass(Map.class);
             var hotel = requireNonEmptyString(body, "hotelName");
             var guest = requireNonEmptyString(body, "guestName");
+            var email = requireNonEmptyString(body, "email");
             var checkIn = getRequiredDate(body, "checkIn");
             var checkOut = getRequiredDate(body, "checkOut");
 
 
             var bookingId = getUuidFromPath(ctx, "bookingId");
-            boolean updated = pipeline.send(new UpdateBookingCommand(bookingId, hotel, guest, checkIn, checkOut));
+            boolean updated = pipeline.send(new UpdateBookingCommand(bookingId, hotel, guest, email, checkIn, checkOut));
 
             if (updated) ctx.status(HttpStatus.NO_CONTENT);
             else ctx.status(HttpStatus.NOT_FOUND).result("Booking ID not found: " + bookingId);

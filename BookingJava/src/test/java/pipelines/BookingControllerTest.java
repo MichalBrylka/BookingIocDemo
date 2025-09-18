@@ -14,7 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
@@ -27,16 +27,7 @@ class BookingControllerTest {
 
     @BeforeEach
     void setup() {
-        bookings = Stream.of(
-                new Booking(new UUID(0L, 1L), "Hotel California", "Alice Smith", LocalDate.of(2024, 7, 1), LocalDate.of(2024, 7, 5)),
-                new Booking(new UUID(0L, 2L), "Grand Budapest", "Bob Johnson", LocalDate.of(2024, 8, 10), LocalDate.of(2024, 8, 15)),
-                new Booking(new UUID(0L, 3L), "The Overlook", "Charlie Brown", LocalDate.of(2024, 9, 20), LocalDate.of(2024, 9, 22))
-        ).collect(Collectors.toMap(
-                Booking::id,
-                booking -> booking,
-                (existing, replacement) -> existing,
-                LinkedHashMap::new
-        ));
+        bookings = TestingInfrastructure.getExampleBookings();
 
         var repository = new InMemoryBookingRepository(bookings) {
             private final AtomicLong counter = new AtomicLong(10L);
@@ -47,7 +38,7 @@ class BookingControllerTest {
             }
         };
 
-        var controller = new BookingController(TestPipeline.create(repository));
+        var controller = new BookingController(TestingInfrastructure.createPipeline(repository, (to, subject, body) -> {/*no-op*/ }));
         app = Javalin.create(config -> config.showJavalinBanner = false);
         controller.registerRoutes(app);
     }
@@ -63,7 +54,13 @@ class BookingControllerTest {
     @Test
     void testCreateBooking() {
         JavalinTest.test(app, (server, client) -> {
-            var booking = Map.of("hotelName", "TestHotel", "guestName", "John Doe", "checkIn", "2024-07-01", "checkOut", "2024-07-05");
+            var booking = Map.of(
+                    "hotelName", "TestHotel",
+                    "guestName", "John Doe",
+                    "email", "email@gmail.com",
+                    "checkIn", "2024-07-01",
+                    "checkOut", "2024-07-05"
+            );
             try (var postRes = client.post("/bookings", booking)) {
                 assertThat(postRes.code()).isEqualTo(201);
                 assertThat(postRes.body()).isNotNull();
@@ -103,6 +100,7 @@ class BookingControllerTest {
             var updatedMap = Map.of(
                     "hotelName", "HotelB",
                     "guestName", "GuestB",
+                    "email", "new@gmail.com",
                     "checkIn", "2024-07-10",
                     "checkOut", "2024-07-15"
             );
@@ -113,6 +111,7 @@ class BookingControllerTest {
             }
             assertThat(updatedBooking.hotelName()).isEqualTo("HotelB");
             assertThat(updatedBooking.guestName()).isEqualTo("GuestB");
+            assertThat(updatedBooking.email()).isEqualTo("new@gmail.com");
             assertThat(updatedBooking.checkIn()).isEqualTo(LocalDate.of(2024, 7, 10));
             assertThat(updatedBooking.checkOut()).isEqualTo(LocalDate.of(2024, 7, 15));
         });
@@ -129,6 +128,7 @@ class BookingControllerTest {
             var patchedBooking = getFirstBooking();
             assertThat(patchedBooking.guestName()).isEqualTo("PatchedName");
             assertThat(patchedBooking.hotelName()).isEqualTo("Hotel California"); // unchanged
+            assertThat(patchedBooking.email()).isEqualTo("alice.beauty@buziaczek.pl"); // unchanged
             assertThat(patchedBooking.checkIn()).isEqualTo(LocalDate.of(2024, 7, 1)); // unchanged
             assertThat(patchedBooking.checkOut()).isEqualTo(LocalDate.of(2024, 7, 5)); // unchanged
 
@@ -152,44 +152,55 @@ class BookingControllerTest {
         });
     }
 
+    static Stream<Arguments> invalidCreateRequests() {
+        // base valid request
+        Map<String, String> validRequest = Map.of(
+                "hotelName", "TestHotel",
+                "guestName", "John",
+                "email", "email@gmail.com",
+                "checkIn", "2024-07-01",
+                "checkOut", "2024-07-05"
+        );
 
-    static Stream<Arguments> invalidRequests() {
         return Stream.of(
                 // Missing fields
-                Arguments.of(Named.of("Missing hotelName",
-                                Map.of("guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                Arguments.of(modify(validRequest, m -> m.remove("hotelName")),
                         "Missing or empty required field: hotelName"),
 
-                Arguments.of(Named.of("Missing guestName",
-                                Map.of("hotelName", "TestHotel", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                Arguments.of(modify(validRequest, m -> m.remove("guestName")),
                         "Missing or empty required field: guestName"),
 
-                Arguments.of(Named.of("Missing checkIn",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkOut", "2024-07-05")),
+                Arguments.of(modify(validRequest, m -> m.remove("email")),
+                        "Missing or empty required field: email"),
+
+                Arguments.of(modify(validRequest, m -> m.remove("checkIn")),
                         "Missing required field: checkIn"),
 
-                Arguments.of(Named.of("Missing checkOut",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01")),
+                Arguments.of(modify(validRequest, m -> m.remove("checkOut")),
                         "Missing required field: checkOut"),
 
                 // Invalid date formats
-                Arguments.of(Named.of("Invalid checkIn format",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "invalid", "checkOut", "2024-07-05")),
+                Arguments.of(modify(validRequest, m -> m.put("checkIn", "invalid")),
                         "Expected ISO-8601 (yyyy-MM-dd) format for field checkIn"),
 
-                Arguments.of(Named.of("Invalid checkOut format",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-13-01")),
+                Arguments.of(modify(validRequest, m -> m.put("checkOut", "2024-13-01")),
                         "Expected ISO-8601 (yyyy-MM-dd) format for field checkOut"),
 
+                // Invalid email format
+                Arguments.of(modify(validRequest, m -> m.put("email", "emailWithoutAtChar")),
+                        "A valid email is required"),
+
                 // Business rule
-                Arguments.of(Named.of("checkIn after checkOut",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-10", "checkOut", "2024-07-01")),
+                Arguments.of(modify(validRequest, m -> {
+                            m.put("checkIn", "2024-07-10");
+                            m.put("checkOut", "2024-07-01");
+                        }),
                         "checkIn cannot be after checkOut")
         );
     }
 
-    @ParameterizedTest(name = "{0}")
-    @MethodSource("invalidRequests")
+    @ParameterizedTest(name = "{1}")
+    @MethodSource("invalidCreateRequests")
     @DisplayName("❌ Negative validation for creating bookings")
     void testCreateBookingValidation(Map<String, Object> booking, String expectedError) {
         JavalinTest.test(app, (server, client) -> {
@@ -227,46 +238,52 @@ class BookingControllerTest {
 
     static Stream<Arguments> invalidUpdateRequests() {
         var validId = new UUID(0L, 1L).toString();
+
+        Map<String, String> validUpdateRequest = Map.of(
+                "hotelName", "TestHotel",
+                "guestName", "John",
+                "email", "email@gmail.com",
+                "checkIn", "2024-07-01",
+                "checkOut", "2024-07-05"
+        );
+
         return Stream.of(
                 // Missing fields
-                Arguments.of(Named.of("Missing hotelName",
-                                Map.of("guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                Arguments.of(Named.of("Missing hotelName", modify(validUpdateRequest, m -> m.remove("hotelName"))),
                         validId, "hotelName", 400),
 
-                Arguments.of(Named.of("Missing guestName",
-                                Map.of("hotelName", "TestHotel", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                Arguments.of(Named.of("Missing guestName", modify(validUpdateRequest, m -> m.remove("guestName"))),
                         validId, "guestName", 400),
 
-                Arguments.of(Named.of("Missing checkIn",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkOut", "2024-07-05")),
+                Arguments.of(Named.of("Missing email", modify(validUpdateRequest, m -> m.remove("email"))),
+                        validId, "email", 400),
+
+                Arguments.of(Named.of("Missing checkIn", modify(validUpdateRequest, m -> m.remove("checkIn"))),
                         validId, "checkIn", 400),
 
-                Arguments.of(Named.of("Missing checkOut",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01")),
+                Arguments.of(Named.of("Missing checkOut", modify(validUpdateRequest, m -> m.remove("checkOut"))),
                         validId, "checkOut", 400),
 
                 // Invalid date formats
-                Arguments.of(Named.of("Invalid checkIn format",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "invalid", "checkOut", "2024-07-05")),
+                Arguments.of(Named.of("Invalid checkIn format", modify(validUpdateRequest, m -> m.put("checkIn", "invalid"))),
                         validId, "checkIn", 400),
 
-                Arguments.of(Named.of("Invalid checkOut format",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-13-01")),
+                Arguments.of(Named.of("Invalid checkOut format", modify(validUpdateRequest, m -> m.put("checkOut", "2024-13-01"))),
                         validId, "checkOut", 400),
 
-                // checkIn after checkOut
-                Arguments.of(Named.of("checkIn after checkOut",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-10", "checkOut", "2024-07-01")),
+                // Business rule
+                Arguments.of(Named.of("checkIn after checkOut", modify(validUpdateRequest, m -> {
+                            m.put("checkIn", "2024-07-10");
+                            m.put("checkOut", "2024-07-01");
+                        })),
                         validId, "checkIn cannot be after checkOut", 400),
 
                 // Invalid UUID path parameter
-                Arguments.of(Named.of("Invalid bookingId UUID",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                Arguments.of(Named.of("Invalid bookingId UUID", validUpdateRequest),
                         "invalid-id", "Invalid UUID", 400),
 
-                // not existing ID
-                Arguments.of(Named.of("Not existing booking UUID",
-                                Map.of("hotelName", "TestHotel", "guestName", "John", "checkIn", "2024-07-01", "checkOut", "2024-07-05")),
+                // Not existing ID
+                Arguments.of(Named.of("Not existing booking UUID", validUpdateRequest),
                         notExistingId.toString(), "Booking ID not found", 404)
         );
     }
@@ -283,5 +300,11 @@ class BookingControllerTest {
                 }
             }
         });
+    }
+
+    private static Map<String, String> modify(Map<String, String> base, Consumer<Map<String, String>> mutator) {
+        Map<String, String> copy = new HashMap<>(base);
+        mutator.accept(copy);
+        return copy;
     }
 }

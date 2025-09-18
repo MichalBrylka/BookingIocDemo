@@ -1,17 +1,19 @@
 package pipelines;
 
 import an.awesome.pipelinr.Command;
+import an.awesome.pipelinr.Notification;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
-record BookHotelHandler(BookingRepository repository) implements Command.Handler<BookHotelCommand, UUID> {
+record BookHotelHandler(BookingRepository repository, NotificationPublisher publisher) implements Command.Handler<BookHotelCommand, UUID> {
     @Override
     public UUID handle(BookHotelCommand command) {
-        var booking = new Booking(repository.getNextId(), command.hotelName(), command.guestName(), command.checkIn(), command.checkOut());
+        var booking = new Booking(repository.getNextId(), command.hotelName(), command.guestName(),command.email(), command.checkIn(), command.checkOut());
         repository.add(booking);
+        publisher.publish(new BookingConfirmedNotification(booking));
         return booking.id();
     }
 }
@@ -49,6 +51,7 @@ record UpdateBookingHandler(BookingRepository repository) implements Command.Han
                 command.bookingId(),
                 command.hotelName(),
                 command.guestName(),
+                command.email(),
                 command.checkIn(),
                 command.checkOut()
         );
@@ -61,5 +64,27 @@ record PatchBookingHandler(BookingRepository repository) implements Command.Hand
     @Override
     public Boolean handle(PatchBookingCommand command) {
         return repository.patch(command.bookingId(), command.fields());
+    }
+}
+
+@Component
+record SendConfirmationEmailHandler(EmailService emailService) implements Notification.Handler<BookingConfirmedNotification> {
+    @Override
+    public void handle(BookingConfirmedNotification notification) {
+        var booking = notification.booking();
+        emailService.sendEmail(booking.email(), "Booking Confirmed",
+                String.format("Dear %s, your booking at %s is confirmed. Booking ID: %s", booking.guestName(), booking.hotelName(), booking.id()));
+    }
+}
+
+@Component
+class UpdateInventoryHandler implements Notification.Handler<BookingConfirmedNotification> {
+    @Override
+    public void handle(BookingConfirmedNotification notification) {
+        var booking = notification.booking();
+        System.out.printf("🏨 Updating inventory for hotel %s (check-in: %s, check-out: %s)%n",
+                booking.hotelName(),
+                booking.checkIn(),
+                booking.checkOut());
     }
 }

@@ -2,29 +2,27 @@ package pipelines;
 
 import an.awesome.pipelinr.Command;
 import an.awesome.pipelinr.Notification;
+import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Pipelinr;
 import io.javalin.Javalin;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 @Configuration
 @ComponentScan(basePackages = "pipelines")
 class IoC {
     @Bean
-    public Pipelinr pipelinr(org.springframework.context.ApplicationContext context) {
-        return new Pipelinr().with(() -> context.getBeansOfType(Command.Handler.class).values().stream());
-    }
-
-    @Bean
-    public Pipelinr pipeline(ObjectProvider<Command.Handler> commandHandlers, ObjectProvider<Command.Middleware> middlewares
-                             //,ObjectProvider<Notification.Handler> notificationHandlers
+    public Pipelinr pipeline(ObjectProvider<Command.Handler> commandHandlers,
+                             ObjectProvider<Command.Middleware> middlewares,
+                             ObjectProvider<Notification.Handler> notificationHandlers
     ) {
         return new Pipelinr()
                 .with(() -> commandHandlers.stream())
                 .with(() -> middlewares.orderedStream())
-                //.with(notificationHandlers::stream)
+                .with(() -> notificationHandlers.stream())
                 ;
     }
 
@@ -37,5 +35,18 @@ class IoC {
         });
         bookingController.registerRoutes(app);
         return app;
+    }
+}
+
+@Service
+class NotificationPublisher {
+    private final Pipeline pipeline;
+
+    public NotificationPublisher(Pipeline pipeline) {
+        this.pipeline = pipeline;
+    }
+
+    public void publish(Notification notification) {
+        pipeline.send(notification);
     }
 }

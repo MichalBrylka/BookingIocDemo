@@ -88,10 +88,12 @@ class InMemoryBookingRepository implements BookingRepository {
 
         String hotelName = fields.containsKey("hotelName") ? (String) fields.get("hotelName") : old.hotelName();
         String guestName = fields.containsKey("guestName") ? (String) fields.get("guestName") : old.guestName();
+        String email = fields.containsKey("email") ? (String) fields.get("email") : old.email();
+
         LocalDate checkIn = fields.containsKey("checkIn") ? getDateFromBody(fields, "checkIn") : old.checkIn();
         LocalDate checkOut = fields.containsKey("checkOut") ? getDateFromBody(fields, "checkOut") : old.checkOut();
 
-        bookings.put(bookingId, new Booking(bookingId, hotelName, guestName, checkIn, checkOut).validate());
+        bookings.put(bookingId, new Booking(bookingId, hotelName, guestName, email, checkIn, checkOut).validate());
         return true;
     }
 
@@ -105,6 +107,18 @@ class InMemoryBookingRepository implements BookingRepository {
                             .formatted(fieldName, e.getMessage())
             );
         }
+    }
+}
+
+interface EmailService {
+    void sendEmail(String to, String subject, String body);
+}
+
+@Component
+class ConsoleLoggingEmailService implements EmailService {
+    @Override
+    public void sendEmail(String to, String subject, String body) {
+        System.out.printf("Sending email to: '%s' with subject '%s' and body '%s'  %n", to, subject, body);
     }
 }
 
