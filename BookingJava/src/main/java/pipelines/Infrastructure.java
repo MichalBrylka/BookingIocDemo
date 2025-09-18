@@ -30,7 +30,6 @@ class ConsoleLoggingEmailService implements EmailService {
     }
 }
 
-@Component
 class JacksonJsonMapper implements JsonMapper {
 
     private final ObjectMapper mapper;

@@ -20,7 +20,7 @@ interface BookingRepository {
 
     boolean update(Booking booking);
 
-    boolean patch(UUID bookingId, Map<String, Object> fields);
+    boolean patch(UUID bookingId, Map<?, ?> fields);
 }
 
 @Repository
@@ -133,7 +133,7 @@ class InMemoryBookingRepository implements BookingRepository {
     }
 
     @Override
-    public boolean patch(UUID bookingId, Map<String, Object> fields) {
+    public boolean patch(UUID bookingId, Map<?, ?> fields) {
         Booking old = bookings.get(bookingId);
         if (old == null) return false;
 
@@ -148,7 +148,7 @@ class InMemoryBookingRepository implements BookingRepository {
         return true;
     }
 
-    private static LocalDate getDateFromBody(Map<String, Object> fields, String fieldName) {
+    private static LocalDate getDateFromBody(Map<?, ?> fields, String fieldName) {
         try {
             var dateStr = (String) fields.get(fieldName);
             return LocalDate.parse(dateStr);

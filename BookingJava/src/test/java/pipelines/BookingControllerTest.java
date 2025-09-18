@@ -38,9 +38,9 @@ class BookingControllerTest {
             }
         };
 
-        var controller = new BookingController(TestingInfrastructure.createPipeline(repository, (to, subject, body) -> {/*no-op*/ }));
-        app = Javalin.create(config -> config.showJavalinBanner = false);
-        controller.registerRoutes(app);
+        var bookingController = new BookingController(TestingInfrastructure.createPipeline(repository, (to, subject, body) -> {/*no-op*/ }));
+
+        app = IoC.createJavalinApp(bookingController, config -> config.showJavalinBanner = false);
     }
 
     private Booking getFirstBooking() {

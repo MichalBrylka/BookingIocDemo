@@ -5,11 +5,16 @@ import an.awesome.pipelinr.Notification;
 import an.awesome.pipelinr.Pipeline;
 import an.awesome.pipelinr.Pipelinr;
 import io.javalin.Javalin;
+import io.javalin.config.JavalinConfig;
+import io.javalin.http.HttpStatus;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.function.Consumer;
 
 @Configuration
 @ComponentScan(basePackages = "pipelines")
@@ -28,12 +33,20 @@ class IoC {
 
 
     @Bean
-    public Javalin javalin(JacksonJsonMapper jacksonJsonMapper, BookingController bookingController) {
+    public Javalin javalin(BookingController bookingController) {
+        return createJavalinApp(bookingController, config -> config.bundledPlugins.enableDevLogging());
+    }
+
+    public static Javalin createJavalinApp(BookingController bookingController, Consumer<JavalinConfig> configBuilder) {
         var app = Javalin.create(config -> {
-            config.jsonMapper(jacksonJsonMapper);
-            config.bundledPlugins.enableDevLogging();
+            config.router.apiBuilder(bookingController);
+            config.jsonMapper(new JacksonJsonMapper());
+
+            if (configBuilder != null) configBuilder.accept(config);
         });
-        bookingController.registerRoutes(app);
+        app.exception(IllegalArgumentException.class, (e, ctx) ->
+                ctx.status(HttpStatus.BAD_REQUEST).json(Map.of("error", e.getMessage()))
+        );
         return app;
     }
 }

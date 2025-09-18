@@ -1,7 +1,7 @@
 package pipelines;
 
 import an.awesome.pipelinr.Pipeline;
-import io.javalin.Javalin;
+import io.javalin.apibuilder.EndpointGroup;
 import io.javalin.http.BadRequestResponse;
 import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
@@ -14,134 +14,140 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.*;
 
+import static io.javalin.apibuilder.ApiBuilder.*;
+
 @Component
-class BookingController {
+class BookingController implements EndpointGroup {
     private final Pipeline pipeline;
     private final BookingWebSocketHub webSocketHub = new BookingWebSocketHub();
 
     BookingController(Pipeline pipeline) {this.pipeline = pipeline;}
 
-    public void registerRoutes(Javalin app) {
-        app.exception(IllegalArgumentException.class, (e, ctx) ->
-                ctx.status(HttpStatus.BAD_REQUEST).json(Map.of("error", e.getMessage()))
-        );
+    @Override
+    public void addEndpoints() {
+        //TODO use CRUD
+        path("bookings", () -> {
+            post(this::createBooking);
+            get(this::listBookings);
 
-        app.ws("/ws/bookings", ws -> {
-            ws.onConnect(ctx -> {
-                webSocketHub.register(ctx);
-                System.out.println("Client connected: " + ctx.sessionId());
+            path("{bookingId}", () -> {
+                get(this::getBooking);
+                put(this::updateBooking);
+                patch(this::patchBooking);
+                delete(this::deleteBooking);
             });
-            ws.onClose(ctx -> {
-                webSocketHub.unregister(ctx);
-                System.out.println("Client disconnected: " + ctx.sessionId());
+
+            ws("events", ws -> {
+                ws.onConnect(ctx -> {
+                    webSocketHub.register(ctx);
+                    System.out.println("Client connected: " + ctx.sessionId());
+                });
+                ws.onClose(ctx -> {
+                    webSocketHub.unregister(ctx);
+                    System.out.println("Client disconnected: " + ctx.sessionId());
+                });
             });
         });
+    }
 
-        // POST /bookings
-        app.post("/bookings", ctx -> {
-            var body = ctx.bodyAsClass(Map.class);
-            var hotel = requireNonEmptyString(body, "hotelName");
-            var guest = requireNonEmptyString(body, "guestName");
-            var email = requireNonEmptyString(body, "email");
-            var checkIn = getRequiredDate(body, "checkIn");
-            var checkOut = getRequiredDate(body, "checkOut");
+    private void createBooking(Context ctx) {
+        var body = ctx.bodyAsClass(Map.class);
+        var hotel = requireNonEmptyString(body, "hotelName");
+        var guest = requireNonEmptyString(body, "guestName");
+        var email = requireNonEmptyString(body, "email");
+        var checkIn = getRequiredDate(body, "checkIn");
+        var checkOut = getRequiredDate(body, "checkOut");
 
+        var bookingId = pipeline.send(new BookHotelCommand(hotel, guest, email, checkIn, checkOut));
 
-            var bookingId = pipeline.send(new BookHotelCommand(hotel, guest, email, checkIn, checkOut));
-
-            webSocketHub.broadcast(Map.of("event", "BookingCreated", "bookingId", bookingId.toString(), "guestName", guest, "hotelName", hotel));
-
-
-            String baseUrl = ctx.url();
-            String bookingUrl = baseUrl + "/" + bookingId;
+        webSocketHub.broadcast(Map.of("event", "BookingCreated", "bookingId", bookingId.toString(), "guestName", guest, "hotelName", hotel));
 
 
-            ctx.status(HttpStatus.CREATED)
-                    .header("Location", bookingUrl)
-                    .json(
-                            new BookingCreatedResponse(
-                                    bookingId.toString(),
-                                    new BookingCreatedResponse.Links(
-                                            new Link(bookingUrl, "GET"),
-                                            new Link(bookingUrl, "PUT"),
-                                            new Link(bookingUrl, "PATCH"),
-                                            new Link(bookingUrl, "DELETE"),
-                                            new Link(baseUrl, "GET")
-                                    )
-                            )
-                    );
-        });
+        String baseUrl = ctx.url();
+        String bookingUrl = baseUrl + "/" + bookingId;
 
-        // DELETE /bookings/{bookingId}
-        app.delete("/bookings/{bookingId}", ctx -> {
-            UUID bookingId = getUuidFromPath(ctx, "bookingId");
 
-            boolean deleted = pipeline.send(new DeleteBookingCommand(bookingId));
-            if (deleted)
-                webSocketHub.broadcast(Map.of(
-                        "event", "BookingDeleted",
-                        "bookingId", bookingId.toString()
-                ));
-            ctx.status(deleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
-        });
+        ctx.status(HttpStatus.CREATED)
+                .header("Location", bookingUrl)
+                .json(
+                        new BookingCreatedResponse(
+                                bookingId.toString(),
+                                new BookingCreatedResponse.Links(
+                                        new Link(bookingUrl, "GET"),
+                                        new Link(bookingUrl, "PUT"),
+                                        new Link(bookingUrl, "PATCH"),
+                                        new Link(bookingUrl, "DELETE"),
+                                        new Link(baseUrl, "GET")
+                                )
+                        )
+                );
+    }
 
-        // GET /bookings/{bookingId}
-        app.get("/bookings/{bookingId}", ctx -> {
-            UUID bookingId = getUuidFromPath(ctx, "bookingId");
-            var bookings = pipeline.send(new GetBookingsByIdQuery(bookingId));
-            if (bookings != null)
-                ctx.json(bookings).status(HttpStatus.OK);
-            else ctx.status(HttpStatus.NOT_FOUND);
-        });
+    // GET /bookings?filter=guestName eq 'John' and hotelName eq 'Hilton'
+    private void listBookings(Context ctx) {
+        var filter = BookingExpressionParser.parseFilter(ctx.queryParam("filter"));
+        var sort = BookingExpressionParser.parseSort(ctx.queryParam("sort"));
 
-        // GET /bookings?filter=guestName eq 'John' and hotelName eq 'Hilton'
-        app.get("/bookings", ctx -> {
-            var filter = BookingExpressionParser.parseFilter(ctx.queryParam("filter"));
-            var sort = BookingExpressionParser.parseSort(ctx.queryParam("sort"));
+        var bookings = pipeline.send(new GetBookingsQuery(filter, sort));
+        ctx.json(bookings).status(HttpStatus.OK);
+    }
 
-            var bookings = pipeline.send(new GetBookingsQuery(filter, sort));
+    private void getBooking(Context ctx) {
+        UUID bookingId = getUuidFromPath(ctx, "bookingId");
+        var bookings = pipeline.send(new GetBookingsByIdQuery(bookingId));
+        if (bookings != null)
             ctx.json(bookings).status(HttpStatus.OK);
-        });
+        else ctx.status(HttpStatus.NOT_FOUND);
+    }
 
-        // PUT /bookings/{bookingId}
-        app.put("/bookings/{bookingId}", ctx -> {
-            var body = ctx.bodyAsClass(Map.class);
-            var hotel = requireNonEmptyString(body, "hotelName");
-            var guest = requireNonEmptyString(body, "guestName");
-            var email = requireNonEmptyString(body, "email");
-            var checkIn = getRequiredDate(body, "checkIn");
-            var checkOut = getRequiredDate(body, "checkOut");
+    private void updateBooking(Context ctx) {
+        var body = ctx.bodyAsClass(Map.class);
+        var hotel = requireNonEmptyString(body, "hotelName");
+        var guest = requireNonEmptyString(body, "guestName");
+        var email = requireNonEmptyString(body, "email");
+        var checkIn = getRequiredDate(body, "checkIn");
+        var checkOut = getRequiredDate(body, "checkOut");
 
 
-            var bookingId = getUuidFromPath(ctx, "bookingId");
-            boolean updated = pipeline.send(new UpdateBookingCommand(bookingId, hotel, guest, email, checkIn, checkOut));
+        var bookingId = getUuidFromPath(ctx, "bookingId");
+        boolean updated = pipeline.send(new UpdateBookingCommand(bookingId, hotel, guest, email, checkIn, checkOut));
 
-            if (updated)
-                webSocketHub.broadcast(Map.of(
-                        "event", "BookingUpdated",
-                        "bookingId", bookingId.toString()
-                ));
+        if (updated)
+            webSocketHub.broadcast(Map.of(
+                    "event", "BookingUpdated",
+                    "bookingId", bookingId.toString()
+            ));
 
-            if (updated) ctx.status(HttpStatus.NO_CONTENT);
-            else ctx.status(HttpStatus.NOT_FOUND).result("Booking ID not found: " + bookingId);
-        });
+        if (updated) ctx.status(HttpStatus.NO_CONTENT);
+        else ctx.status(HttpStatus.NOT_FOUND).result("Booking ID not found: " + bookingId);
+    }
 
-        // PATCH /bookings/{bookingId}
-        app.patch("/bookings/{bookingId}", ctx -> {
-            var bookingId = getUuidFromPath(ctx, "bookingId");
-            var body = ctx.bodyAsClass(Map.class);
+    private void patchBooking(Context ctx) {
+        var bookingId = getUuidFromPath(ctx, "bookingId");
+        var body = ctx.bodyAsClass(Map.class);
 
-            boolean patched = pipeline.send(new PatchBookingCommand(bookingId, body));
+        boolean patched = pipeline.send(new PatchBookingCommand(bookingId, body));
 
-            if (patched)
-                webSocketHub.broadcast(Map.of(
-                        "event", "BookingPatched",
-                        "bookingId", bookingId.toString()
-                ));
+        if (patched)
+            webSocketHub.broadcast(Map.of(
+                    "event", "BookingPatched",
+                    "bookingId", bookingId.toString()
+            ));
 
-            if (patched) ctx.status(HttpStatus.NO_CONTENT);
-            else ctx.status(HttpStatus.NOT_FOUND).result("Booking ID not found: " + bookingId);
-        });
+        if (patched) ctx.status(HttpStatus.NO_CONTENT);
+        else ctx.status(HttpStatus.NOT_FOUND).result("Booking ID not found: " + bookingId);
+    }
+
+    private void deleteBooking(Context ctx) {
+        UUID bookingId = getUuidFromPath(ctx, "bookingId");
+
+        boolean deleted = pipeline.send(new DeleteBookingCommand(bookingId));
+        if (deleted)
+            webSocketHub.broadcast(Map.of(
+                    "event", "BookingDeleted",
+                    "bookingId", bookingId.toString()
+            ));
+        ctx.status(deleted ? HttpStatus.NO_CONTENT : HttpStatus.NOT_FOUND);
     }
 
     private static UUID getUuidFromPath(Context ctx, String fieldName) {
@@ -169,31 +175,10 @@ class BookingController {
     }
 }
 
-record Link(String href, String method) {}
-
 record BookingCreatedResponse(String bookingId, Links _links) {
     record Links(Link self, Link update, Link patch, Link delete, Link list) {}
 }
 
-class BookingWebSocketHub {
-    private final Set<WsContext> sessions = new java.util.concurrent.CopyOnWriteArraySet<>();
-
-    public void register(WsContext ctx) {
-        sessions.add(ctx);
-    }
-
-    public void unregister(WsContext ctx) {
-        sessions.remove(ctx);
-    }
-
-    public void broadcast(Object message) {
-        for (WsContext session : sessions) {
-            if (session.session.isOpen()) {
-                session.send(message);
-            }
-        }
-    }
-}
 
 class BookingExpressionParser {
 
