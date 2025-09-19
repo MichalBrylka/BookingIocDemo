@@ -1,34 +1,15 @@
-package pipelines;
+package pipelines.infrastructure;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.json.JsonMapper;
 import org.jetbrains.annotations.NotNull;
-import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-
-import java.util.*;
-
-
-interface EmailService {
-    void sendEmail(String to, String subject, String body);
-}
-
-@Component
-class ConsoleLoggingEmailService implements EmailService {
-    @Override
-    public void sendEmail(String to, String subject, String body) {
-        System.out.printf("Sending email to: '%s' with subject '%s' and body '%s'  %n", to, subject, body);
-    }
-}
 
 class JacksonJsonMapper implements JsonMapper {
 

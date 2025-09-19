@@ -1,4 +1,4 @@
-package pipelines;
+package pipelines.domain;
 
 import io.javalin.openapi.OpenApiIgnore;
 
@@ -6,7 +6,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 import java.util.function.Function;
 
-record Booking(
+public record Booking(
         UUID id,
         String hotelName,
         String guestName,

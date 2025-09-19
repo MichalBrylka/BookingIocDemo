@@ -9,6 +9,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mockito;
+import pipelines.commands.*;
+import pipelines.data.*;
+import pipelines.domain.Booking;
+import pipelines.infrastructure.EmailService;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -74,7 +78,7 @@ public class PipelineIntegrationTests {
 
                 Arguments.of(Named.of("Get all bookings", new GetBookingsQuery(null, null)), 3, null),
                 Arguments.of(Named.of("Get bookings filtered by hotel name",
-                        new GetBookingsQuery(new BookingFilter(new BookingFilter.StringFilter("Hotel California", BookingFilter.Operator.EQ), null, null, null, null), null)
+                        new GetBookingsQuery(Map.of("hotelName", new StringFilter("Hotel California", Operator.EQ)), null)
                 ), 1, null),
 
                 Arguments.of(Named.of("Update booking", new UpdateBookingCommand(existingId, "UpdatedHotel", "Eve", "new@email.pl", today, today.plusDays(3))), true, null),

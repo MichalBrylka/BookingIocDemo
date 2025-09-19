@@ -1,30 +1,15 @@
-package pipelines;
+package pipelines.data;
 
 import org.springframework.stereotype.Repository;
+import pipelines.domain.Booking;
 
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-interface BookingRepository {
-    UUID getNextId();
-
-    void add(Booking booking);
-
-    List<Booking> get(BookingFilter filter, Iterable<SortField> sort);
-
-    Booking getById(UUID bookingId);
-
-    boolean delete(UUID bookingId);
-
-    boolean update(Booking booking);
-
-    boolean patch(UUID bookingId, Map<?, ?> fields);
-}
-
 @Repository
-class InMemoryBookingRepository implements BookingRepository {
+public class InMemoryBookingRepository implements BookingRepository {
     private final Map<UUID, Booking> bookings;
 
     public InMemoryBookingRepository() {
@@ -47,18 +32,19 @@ class InMemoryBookingRepository implements BookingRepository {
     }
 
     @Override
-    public List<Booking> get(BookingFilter filter, Iterable<SortField> sort) {
+    public List<Booking> get(Map<String, DataFilter> filter, Iterable<SortField> sort) {
         List<Booking> result = new ArrayList<>(bookings.values());
 
         // Apply filters only if filter != null
         if (filter != null) {
             Predicate<Booking> predicate = booking -> true;
 
-            if (filter.hotelName() != null) predicate = predicate.and(stringPredicate("hotelName", filter.hotelName()));
-            if (filter.guestName() != null) predicate = predicate.and(stringPredicate("guestName", filter.guestName()));
-            if (filter.email() != null) predicate = predicate.and(stringPredicate("email", filter.email()));
-            if (filter.checkIn() != null) predicate = predicate.and(datePredicate("checkIn", filter.checkIn()));
-            if (filter.checkOut() != null) predicate = predicate.and(datePredicate("checkOut", filter.checkOut()));
+            for (var kvp : filter.entrySet()) {
+                predicate = predicate.and(switch (kvp.getValue()) {
+                    case StringFilter sf -> stringPredicate(kvp.getKey(), sf);
+                    case DateFilter df -> datePredicate(kvp.getKey(), df);
+                });
+            }
 
             result = result.stream().filter(predicate).collect(Collectors.toList());
         }
@@ -87,7 +73,7 @@ class InMemoryBookingRepository implements BookingRepository {
         return result;
     }
 
-    private Predicate<Booking> stringPredicate(String fieldName, BookingFilter.StringFilter filter) {
+    private Predicate<Booking> stringPredicate(String fieldName, StringFilter filter) {
         var getter = Booking.<String>getFieldAccessor(fieldName);
 
         return switch (filter.operator()) {
@@ -98,7 +84,7 @@ class InMemoryBookingRepository implements BookingRepository {
         };
     }
 
-    private Predicate<Booking> datePredicate(String fieldName, BookingFilter.DateFilter filter) {
+    private Predicate<Booking> datePredicate(String fieldName, DateFilter filter) {
         var getter = Booking.<LocalDate>getFieldAccessor(fieldName);
 
         return switch (filter.operator()) {
@@ -160,17 +146,3 @@ class InMemoryBookingRepository implements BookingRepository {
         }
     }
 }
-
-record BookingFilter(StringFilter hotelName, StringFilter guestName, StringFilter email, DateFilter checkIn, DateFilter checkOut) {
-
-    public record StringFilter(String value, Operator operator) {}
-
-    public record DateFilter(LocalDate value, Operator operator) {}
-
-    public enum Operator {
-        EQ, NEQ, IN, GT, LT, GTE, LTE
-    }
-}
-
-record SortField(String field, boolean ascending) {}
-

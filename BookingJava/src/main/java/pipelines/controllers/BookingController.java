@@ -1,4 +1,4 @@
-package pipelines;
+package pipelines.controllers;
 
 import an.awesome.pipelinr.Pipeline;
 import io.javalin.apibuilder.EndpointGroup;
@@ -7,25 +7,22 @@ import io.javalin.http.Context;
 import io.javalin.http.HttpStatus;
 import io.javalin.openapi.*;
 import org.springframework.stereotype.Component;
-import pipelines.BookingFilter.*;
+import pipelines.commands.*;
+import pipelines.data.DataExpressionParser;
+import pipelines.domain.Booking;
+import pipelines.infrastructure.BookingWebSocketHub;
+import pipelines.response.*;
 
 import java.time.LocalDate;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.*;
 
 import static io.javalin.apibuilder.ApiBuilder.*;
 
 @Component
-class BookingController implements EndpointGroup {
-    private final Pipeline pipeline;
-    private final BookingWebSocketHub webSocketHub = new BookingWebSocketHub();
-
+public record BookingController(Pipeline pipeline, BookingWebSocketHub webSocketHub) implements EndpointGroup {
     private static final String RESOURCE_NAME = "Bookings";
     private static final String BASE_PATH = "/bookings";
     private static final String ID_PATH = BASE_PATH + "/{id}";
-
-    BookingController(Pipeline pipeline) {this.pipeline = pipeline;}
 
     @Override
     public void addEndpoints() {
@@ -53,6 +50,18 @@ class BookingController implements EndpointGroup {
         });
     }
 
+
+    @OpenApi(summary = "Create a new booking",
+            description = "Creates a booking and broadcasts an event to all connected WebSocket clients",
+            requestBody = @OpenApiRequestBody(content = @OpenApiContent(from = BookHotelCommand.class), required = true),
+            tags = {RESOURCE_NAME},
+            path = BASE_PATH,
+            methods = {HttpMethod.POST},
+            responses = {
+                    @OpenApiResponse(status = "201", content = @OpenApiContent(from = BookingCreatedResponse.class)),
+                    @OpenApiResponse(status = "400", description = "Missing or invalid fields, dates not in ISO-8601 format, checkOut before checkIn")
+            }
+    )
     private void createBooking(Context ctx) {
         var body = ctx.bodyAsClass(Map.class);
         var hotel = requireNonEmptyString(body, "hotelName");
@@ -75,7 +84,7 @@ class BookingController implements EndpointGroup {
                 .json(
                         new BookingCreatedResponse(
                                 bookingId.toString(),
-                                new BookingCreatedResponse.Links(
+                                new Links(
                                         new Link(bookingUrl, "GET"),
                                         new Link(bookingUrl, "PUT"),
                                         new Link(bookingUrl, "PATCH"),
@@ -86,7 +95,6 @@ class BookingController implements EndpointGroup {
                 );
     }
 
-    // GET /bookings?filter=
     @OpenApi(summary = "Get all bookings. Supported fields: hotelName, guestName, email, checkIn, checkOut.",
             operationId = "getAllBookings",
             responses = {@OpenApiResponse(status = "200", content = {@OpenApiContent(from = Booking[].class)})},
@@ -94,21 +102,19 @@ class BookingController implements EndpointGroup {
             path = BASE_PATH,
             methods = {HttpMethod.GET},
             queryParams = {
-                    @OpenApiParam(
-                            name = "filter",
+                    @OpenApiParam(name = "filter",
                             description = "Filter bookings by criteria. Supported operators: eq, neq, has (for strings), dates operators (gt, lt, gte, lte). Combine conditions with AND",
                             example = "guestName eq 'John' and hotelName eq 'Hilton'"
                     ),
-                    @OpenApiParam(
-                            name = "sort",
+                    @OpenApiParam(name = "sort",
                             description = "Sort bookings by field name and direction (ASC-default or DESC). Multiple fields can be separated by commas.",
                             example = "checkIn DESC, hotelName ASC, guestName"
                     )
             }
     )
     private void listBookings(Context ctx) {
-        var filter = BookingExpressionParser.parseFilter(ctx.queryParam("filter"));
-        var sort = BookingExpressionParser.parseSort(ctx.queryParam("sort"));
+        var filter = DataExpressionParser.parseFilter(ctx.queryParam("filter"));
+        var sort = DataExpressionParser.parseSort(ctx.queryParam("sort"));
 
         var bookings = pipeline.send(new GetBookingsQuery(filter, sort));
         ctx.json(bookings).status(HttpStatus.OK);
@@ -194,85 +200,5 @@ class BookingController implements EndpointGroup {
         } catch (Exception e) {
             throw new BadRequestResponse("Expected ISO-8601 (yyyy-MM-dd) format for field %s: %s".formatted(fieldName, e.getMessage()));
         }
-    }
-}
-
-record BookingCreatedResponse(String bookingId, Links _links) {
-    record Links(Link self, Link update, Link patch, Link delete, Link list) {}
-}
-
-
-class BookingExpressionParser {
-
-    public static Iterable<SortField> parseSort(String sortParam) {
-        if (sortParam == null || sortParam.isBlank()) return null;
-
-        List<SortField> sortFields = new ArrayList<>();
-        for (String part : sortParam.split(",")) {
-            String[] tokens = part.trim().split("\\s+");
-            String field = tokens[0].trim();
-            boolean descending = tokens.length == 2 && tokens[1].equalsIgnoreCase("DESC");
-            sortFields.add(new SortField(field, !descending));
-        }
-        return sortFields;
-    }
-
-    // regex: field operator 'value', value can have '' escaped quote
-    private static final Pattern CONDITION_PATTERN = Pattern.compile(
-            "(\\w+)\\s+(eq|neq|has|gt|lt|gte|lte)\\s+'((?:[^']|'')*)'",
-            Pattern.CASE_INSENSITIVE
-    );
-
-    public static BookingFilter parseFilter(String filterParam) {
-        if (filterParam == null || filterParam.isBlank()) return null;
-
-        StringFilter hotelName = null;
-        StringFilter guestName = null;
-        StringFilter email = null;
-        DateFilter checkIn = null;
-        DateFilter checkOut = null;
-
-        // Split by AND (case-insensitive)
-        String[] conditions = filterParam.split("(?i)\\s+AND\\s+");
-        for (String condition : conditions) {
-            Matcher matcher = CONDITION_PATTERN.matcher(condition.trim());
-            if (!matcher.matches()) continue; // skip invalid
-
-            String field = matcher.group(1);
-            String op = matcher.group(2);
-            String valueRaw = matcher.group(3).replace("''", "'"); // unescape ''
-
-            switch (field) {
-                case "hotelName" -> hotelName = new StringFilter(valueRaw, parseStringOperator(op));
-                case "guestName" -> guestName = new StringFilter(valueRaw, parseStringOperator(op));
-                case "email" -> email = new StringFilter(valueRaw, parseStringOperator(op));
-                case "checkIn" -> checkIn = new DateFilter(LocalDate.parse(valueRaw), parseDateOperator(op));
-                case "checkOut" -> checkOut = new DateFilter(LocalDate.parse(valueRaw), parseDateOperator(op));
-                default -> throw new IllegalArgumentException("Unknown field: " + field);
-            }
-        }
-
-        return new BookingFilter(hotelName, guestName, email, checkIn, checkOut);
-    }
-
-    private static BookingFilter.Operator parseStringOperator(String op) {
-        return switch (op.toLowerCase()) {
-            case "eq" -> BookingFilter.Operator.EQ;
-            case "neq" -> BookingFilter.Operator.NEQ;
-            case "has" -> BookingFilter.Operator.IN;
-            default -> throw new IllegalArgumentException("Unknown string operator: " + op);
-        };
-    }
-
-    private static BookingFilter.Operator parseDateOperator(String op) {
-        return switch (op.toLowerCase()) {
-            case "eq" -> BookingFilter.Operator.EQ;
-            case "neq" -> BookingFilter.Operator.NEQ;
-            case "gt" -> BookingFilter.Operator.GT;
-            case "lt" -> BookingFilter.Operator.LT;
-            case "gte" -> BookingFilter.Operator.GTE;
-            case "lte" -> BookingFilter.Operator.LTE;
-            default -> throw new IllegalArgumentException("Unknown date operator: " + op);
-        };
     }
 }

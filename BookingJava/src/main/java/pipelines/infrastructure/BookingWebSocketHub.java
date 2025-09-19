@@ -1,12 +1,12 @@
-package pipelines;
+package pipelines.infrastructure;
 
 import io.javalin.websocket.WsContext;
+import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-record Link(String href, String method) {}
-
-class BookingWebSocketHub {
+@Service
+public class BookingWebSocketHub {
     private final Set<WsContext> sessions = new java.util.concurrent.CopyOnWriteArraySet<>();
 
     public void register(WsContext ctx) {

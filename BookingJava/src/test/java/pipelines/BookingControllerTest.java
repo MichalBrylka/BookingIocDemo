@@ -10,6 +10,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pipelines.controllers.BookingController;
+import pipelines.data.InMemoryBookingRepository;
+import pipelines.domain.Booking;
+import pipelines.infrastructure.BookingWebSocketHub;
+import pipelines.infrastructure.EmailService;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -19,6 +24,8 @@ import java.util.stream.Stream;
 
 import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static pipelines.infrastructure.WebAppCreator.createJavalinApp;
 
 class BookingControllerTest {
     private static final UUID notExistingId = new UUID(Long.MAX_VALUE, Long.MAX_VALUE);
@@ -38,9 +45,9 @@ class BookingControllerTest {
             }
         };
 
-        var bookingController = new BookingController(TestingInfrastructure.createPipeline(repository, (to, subject, body) -> {/*no-op*/ }));
+        var bookingController = new BookingController(TestingInfrastructure.createPipeline(repository, mock(EmailService.class)), mock(BookingWebSocketHub.class));
 
-        app = IoC.createJavalinApp(bookingController, config -> config.showJavalinBanner = false);
+        app = createJavalinApp(bookingController, config -> config.showJavalinBanner = false);
     }
 
     private Booking getFirstBooking() {
@@ -215,7 +222,7 @@ class BookingControllerTest {
 
     static Stream<Arguments> deleteBookingCases() {
         return Stream.of(
-                Arguments.of(Named.of("Invalid UUID format", "not-a-uuid"), 400, "Invalid format for UUID path parameter bookingId: Invalid UUID string: not-a-uuid"),
+                Arguments.of(Named.of("Invalid UUID format", "not-a-uuid"), 400, "Invalid format for UUID path parameter id"),
 
                 Arguments.of(Named.of("Non-existing booking", notExistingId.toString()), 404, null)
         );

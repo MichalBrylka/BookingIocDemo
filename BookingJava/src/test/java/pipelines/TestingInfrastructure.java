@@ -2,6 +2,11 @@ package pipelines;
 
 import an.awesome.pipelinr.*;
 import org.jetbrains.annotations.NotNull;
+import pipelines.data.BookingRepository;
+import pipelines.domain.Booking;
+import pipelines.handlers.*;
+import pipelines.infrastructure.EmailService;
+import pipelines.infrastructure.NotificationPublisher;
 
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
@@ -13,7 +18,7 @@ class TestingInfrastructure {
     static Pipeline createPipeline(BookingRepository repository, EmailService emailService) {
         Pipelinr pipeline = new Pipelinr();
 
-        NotificationPublisher publisher = new NotificationPublisher(pipeline);
+        var publisher = new NotificationPublisher(pipeline);
 
         pipeline = pipeline.with(() -> Stream.of(
                         new BookHotelHandler(repository, publisher),

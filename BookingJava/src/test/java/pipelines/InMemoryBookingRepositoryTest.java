@@ -3,6 +3,10 @@ package pipelines;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import pipelines.data.DataFilter;
+import pipelines.data.InMemoryBookingRepository;
+import pipelines.data.*;
+import pipelines.domain.Booking;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -27,33 +31,25 @@ class InMemoryBookingRepositoryTest {
                 Arguments.of("No filter, no sort", null, null, 3),
 
                 Arguments.of("Filter hotelName eq Hilton",
-                        new BookingFilter(
-                                new BookingFilter.StringFilter("Hilton", BookingFilter.Operator.EQ),
-                                null, null, null, null
-                        ),
+                        Map.of("hotelName", new StringFilter("Hilton", Operator.EQ)),
                         null,
                         2
                 ),
 
                 Arguments.of("Filter guestName eq Bob",
-                        new BookingFilter(null,
-                                new BookingFilter.StringFilter("Bob", BookingFilter.Operator.EQ),
-                                null, null, null),
+                        Map.of("guestName", new StringFilter("Bob", Operator.EQ)),
                         null,
                         1
                 ),
 
                 Arguments.of("Filter checkOut lte 2024-06-18",
-                        new BookingFilter(null, null, null, null,
-                                new BookingFilter.DateFilter(LocalDate.of(2024, 6, 18),
-                                        BookingFilter.Operator.LTE)),
+                        Map.of("checkOut", new DateFilter(LocalDate.of(2024, 6, 18), Operator.LTE)),
                         null,
                         2
                 ),
 
                 Arguments.of("Filter hotelName eq Hilton, sort by checkIn DESC",
-                        new BookingFilter(new BookingFilter.StringFilter("Hilton", BookingFilter.Operator.EQ),
-                                null, null, null, null),
+                        Map.of("hotelName", new StringFilter("Hilton", Operator.EQ)),
                         List.of(new SortField("checkIn", false)),
                         2
                 )
@@ -62,7 +58,7 @@ class InMemoryBookingRepositoryTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("provideFiltersAndSorts")
-    void testGetAll(String ignored, BookingFilter filter, Iterable<SortField> sort, int expectedCount) {
+    void testGetAll(String ignored, Map<String, DataFilter> filter, Iterable<SortField> sort, int expectedCount) {
         InMemoryBookingRepository repo = repository();
         List<Booking> result = repo.get(filter, sort);
         assertThat(result).hasSize(expectedCount);
