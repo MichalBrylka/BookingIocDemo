@@ -29,10 +29,10 @@ public class DataExpressionParser {
     );
 
     //TODO make generic to recognize field types from T
-    public static <T> Map<String, DataFilter> parseFilter(String filterParam, Class<T> clazz) {
+    public static <T> Map<String, DataFilter<?>> parseFilter(String filterParam, Class<T> clazz) {
         if (filterParam == null || filterParam.isBlank()) return null;
 
-        var result = new java.util.HashMap<String, DataFilter>();
+        var result = new java.util.HashMap<String, DataFilter<?>>();
 
 
         String[] conditions = filterParam.split("(?i)\\s+AND\\s+");// Split by AND (case-insensitive)

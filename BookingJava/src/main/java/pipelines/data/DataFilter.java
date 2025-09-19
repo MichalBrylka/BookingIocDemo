@@ -1,4 +1,8 @@
 package pipelines.data;
 
-public sealed interface DataFilter permits DateFilter, StringFilter, UuidFilter {
+import java.util.function.Function;
+import java.util.function.Predicate;
+
+public sealed interface DataFilter<TValue> permits DateFilter, StringFilter, UuidFilter {
+    <TEntity> Predicate<TEntity> getPredicate(Function<TEntity, TValue> getter);
 }

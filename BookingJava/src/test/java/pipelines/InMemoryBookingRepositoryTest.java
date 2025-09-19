@@ -58,7 +58,7 @@ class InMemoryBookingRepositoryTest {
 
     @ParameterizedTest(name = "{0}")
     @MethodSource("provideFiltersAndSorts")
-    void testGetAll(String ignored, Map<String, DataFilter> filter, Iterable<SortField> sort, int expectedCount) {
+    void testGetAll(String ignored, Map<String, DataFilter<?>> filter, Iterable<SortField> sort, int expectedCount) {
         InMemoryBookingRepository repo = repository();
         List<Booking> result = repo.get(filter, sort);
         assertThat(result).hasSize(expectedCount);

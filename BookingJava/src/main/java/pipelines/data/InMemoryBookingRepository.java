@@ -32,7 +32,7 @@ public class InMemoryBookingRepository implements BookingRepository {
     }
 
     @Override
-    public List<Booking> get(Map<String, DataFilter> filter, Iterable<SortField> sort) {
+    public List<Booking> get(Map<String, DataFilter<?>> filter, Iterable<SortField> sort) {
         List<Booking> result = new ArrayList<>(bookings.values());
 
         // Apply filters only if filter != null
@@ -41,11 +41,15 @@ public class InMemoryBookingRepository implements BookingRepository {
 
             for (var kvp : filter.entrySet()) {
                 final String fieldName = kvp.getKey();
-                predicate = predicate.and(switch (kvp.getValue()) {
-                    case StringFilter sf -> stringPredicate(fieldName, sf);
-                    case DateFilter df -> datePredicate(fieldName, df);
-                    case UuidFilter uf -> uuidPredicate(fieldName, uf);
-                });
+                final DataFilter<?> dataFilter = kvp.getValue();
+
+                predicate = predicate.and(
+                        switch (dataFilter) {
+                            case StringFilter sf -> sf.getPredicate(Booking.getFieldAccessor(fieldName));
+                            case DateFilter df -> df.getPredicate(Booking.getFieldAccessor(fieldName));
+                            case UuidFilter uf -> uf.getPredicate(Booking.getFieldAccessor(fieldName));
+                        }
+                );
             }
 
             result = result.stream().filter(predicate).collect(Collectors.toList());
@@ -73,41 +77,6 @@ public class InMemoryBookingRepository implements BookingRepository {
         }
 
         return result;
-    }
-
-    private Predicate<Booking> stringPredicate(String fieldName, StringFilter filter) {
-        var getter = Booking.<String>getFieldAccessor(fieldName);
-
-        return switch (filter.operator()) {
-            case EQ -> b -> Objects.equals(getter.apply(b), filter.value());
-            case NEQ -> b -> !Objects.equals(getter.apply(b), filter.value());
-            case IN -> b -> getter.apply(b) != null && getter.apply(b).contains(filter.value());
-            default -> throw new IllegalArgumentException("Unsupported operator for string field: " + filter.operator());
-        };
-    }
-
-    private Predicate<Booking> datePredicate(String fieldName, DateFilter filter) {
-        var getter = Booking.<LocalDate>getFieldAccessor(fieldName);
-
-        return switch (filter.operator()) {
-            case EQ -> b -> Objects.equals(getter.apply(b), filter.value());
-            case NEQ -> b -> !Objects.equals(getter.apply(b), filter.value());
-            case GT -> b -> getter.apply(b).isAfter(filter.value());
-            case LT -> b -> getter.apply(b).isBefore(filter.value());
-            case GTE -> b -> !getter.apply(b).isBefore(filter.value());
-            case LTE -> b -> !getter.apply(b).isAfter(filter.value());
-            default -> throw new IllegalArgumentException("Unsupported operator for date field: " + filter.operator());
-        };
-    }
-
-    private Predicate<Booking> uuidPredicate(String fieldName, UuidFilter filter) {
-        var getter = Booking.<UUID>getFieldAccessor(fieldName);
-
-        return switch (filter.operator()) {
-            case EQ -> b -> Objects.equals(getter.apply(b), filter.value());
-            case NEQ -> b -> !Objects.equals(getter.apply(b), filter.value());
-            default -> throw new IllegalArgumentException("Unsupported operator for UUID field: " + filter.operator());
-        };
     }
 
     @Override

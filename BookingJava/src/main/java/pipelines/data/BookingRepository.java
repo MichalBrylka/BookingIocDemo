@@ -11,7 +11,7 @@ public interface BookingRepository {
 
     void add(Booking booking);
 
-    List<Booking> get(Map<String, DataFilter> filter, Iterable<SortField> sort);
+    List<Booking> get(Map<String, DataFilter<?>> filter, Iterable<SortField> sort);
 
     Booking getById(UUID bookingId);
 
