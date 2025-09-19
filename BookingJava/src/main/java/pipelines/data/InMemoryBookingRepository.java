@@ -40,9 +40,11 @@ public class InMemoryBookingRepository implements BookingRepository {
             Predicate<Booking> predicate = booking -> true;
 
             for (var kvp : filter.entrySet()) {
+                final String fieldName = kvp.getKey();
                 predicate = predicate.and(switch (kvp.getValue()) {
-                    case StringFilter sf -> stringPredicate(kvp.getKey(), sf);
-                    case DateFilter df -> datePredicate(kvp.getKey(), df);
+                    case StringFilter sf -> stringPredicate(fieldName, sf);
+                    case DateFilter df -> datePredicate(fieldName, df);
+                    case UuidFilter uf -> uuidPredicate(fieldName, uf);
                 });
             }
 
@@ -55,13 +57,13 @@ public class InMemoryBookingRepository implements BookingRepository {
             if (it.hasNext()) {
                 Comparator<Booking> combined = null;
                 for (SortField sf : sort) {
-                    Comparator<Booking> comp = switch (sf.field()) {
-                        case "hotelName" -> Comparator.comparing(Booking.getFieldAccessor("hotelName"), Comparator.nullsLast(String::compareTo));
-                        case "guestName" -> Comparator.comparing(Booking.getFieldAccessor("guestName"), Comparator.nullsLast(String::compareTo));
-                        case "email" -> Comparator.comparing(Booking.getFieldAccessor("email"), Comparator.nullsLast(String::compareTo));
-                        case "checkIn" -> Comparator.comparing(Booking.getFieldAccessor("checkIn"), Comparator.nullsLast(LocalDate::compareTo));
-                        case "checkOut" -> Comparator.comparing(Booking.getFieldAccessor("checkOut"), Comparator.nullsLast(LocalDate::compareTo));
-                        default -> throw new IllegalArgumentException("Unknown sort field: " + sf.field());
+                    String field = sf.field();
+                    Comparator<Booking> comp = switch (field) {
+                        case "id" -> Comparator.comparing(Booking.getFieldAccessor(field), Comparator.nullsLast(UUID::compareTo));
+                        case "hotelName", "guestName", "email" ->
+                                Comparator.comparing(Booking.getFieldAccessor(field), Comparator.nullsLast(String::compareTo));
+                        case "checkIn", "checkOut" -> Comparator.comparing(Booking.getFieldAccessor(field), Comparator.nullsLast(LocalDate::compareTo));
+                        default -> throw new IllegalArgumentException("Unknown sort field: " + field);
                     };
                     if (!sf.ascending()) comp = comp.reversed();
                     combined = combined == null ? comp : combined.thenComparing(comp);
@@ -95,6 +97,16 @@ public class InMemoryBookingRepository implements BookingRepository {
             case GTE -> b -> !getter.apply(b).isBefore(filter.value());
             case LTE -> b -> !getter.apply(b).isAfter(filter.value());
             default -> throw new IllegalArgumentException("Unsupported operator for date field: " + filter.operator());
+        };
+    }
+
+    private Predicate<Booking> uuidPredicate(String fieldName, UuidFilter filter) {
+        var getter = Booking.<UUID>getFieldAccessor(fieldName);
+
+        return switch (filter.operator()) {
+            case EQ -> b -> Objects.equals(getter.apply(b), filter.value());
+            case NEQ -> b -> !Objects.equals(getter.apply(b), filter.value());
+            default -> throw new IllegalArgumentException("Unsupported operator for UUID field: " + filter.operator());
         };
     }
 

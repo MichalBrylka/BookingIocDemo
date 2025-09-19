@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,7 +29,7 @@ public class DataExpressionParser {
     );
 
     //TODO make generic to recognize field types from T
-    public static Map<String, DataFilter> parseFilter(String filterParam) {
+    public static <T> Map<String, DataFilter> parseFilter(String filterParam, Class<T> clazz) {
         if (filterParam == null || filterParam.isBlank()) return null;
 
         var result = new java.util.HashMap<String, DataFilter>();
@@ -43,33 +44,22 @@ public class DataExpressionParser {
             String op = matcher.group(2);
             String valueRaw = matcher.group(3).replace("''", "'"); // unescape ''
 
-            switch (field) {
-                case "hotelName", "guestName", "email" -> result.put(field, new StringFilter(valueRaw, parseStringOperator(op)));
-                case "checkIn", "checkOut" -> result.put(field, new DateFilter(LocalDate.parse(valueRaw), parseDateOperator(op)));
-                default -> throw new IllegalArgumentException("Unknown field: " + field);
+            Class<?> fieldType;
+            try {
+                fieldType = clazz.getDeclaredField(field).getType();
+            } catch (NoSuchFieldException e) {
+                throw new IllegalArgumentException("Unknown field: " + field);
             }
+
+            if (fieldType.equals(String.class))
+                result.put(field, new StringFilter(valueRaw, Operator.fromString(op)));
+            else if (fieldType.equals(LocalDate.class))
+                result.put(field, new DateFilter(LocalDate.parse(valueRaw), Operator.fromString(op)));
+            else if (fieldType.equals(UUID.class))
+                result.put(field, new UuidFilter(UUID.fromString(valueRaw), Operator.fromString(op)));
+            else
+                throw new IllegalArgumentException("Unsupported field type: " + fieldType);
         }
         return result;
-    }
-
-    private static Operator parseStringOperator(String op) {
-        return switch (op.toLowerCase()) {
-            case "eq" -> Operator.EQ;
-            case "neq" -> Operator.NEQ;
-            case "has" -> Operator.IN;
-            default -> throw new IllegalArgumentException("Unknown string operator: " + op);
-        };
-    }
-
-    private static Operator parseDateOperator(String op) {
-        return switch (op.toLowerCase()) {
-            case "eq" -> Operator.EQ;
-            case "neq" -> Operator.NEQ;
-            case "gt" -> Operator.GT;
-            case "lt" -> Operator.LT;
-            case "gte" -> Operator.GTE;
-            case "lte" -> Operator.LTE;
-            default -> throw new IllegalArgumentException("Unknown date operator: " + op);
-        };
     }
 }

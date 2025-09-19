@@ -113,7 +113,7 @@ public record BookingController(Pipeline pipeline, BookingWebSocketHub webSocket
             }
     )
     private void listBookings(Context ctx) {
-        var filter = DataExpressionParser.parseFilter(ctx.queryParam("filter"));
+        var filter = DataExpressionParser.parseFilter(ctx.queryParam("filter"), Booking.class);
         var sort = DataExpressionParser.parseSort(ctx.queryParam("sort"));
 
         var bookings = pipeline.send(new GetBookingsQuery(filter, sort));
